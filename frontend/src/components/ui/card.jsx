@@ -66,3 +66,4 @@ export function CardContent({ children, className = '', ...props }) {
     <div className={`p-6 ${className}`} {...props}>{children}</div>
   );
 }
+

@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
   BookOpen, Users, Calendar, Award, Clock, DollarSign, TrendingUp, Target,
-  BarChart3, FileText, Settings, Shield, CheckCircle, ChartLine
+  BarChart3, FileText, Settings, Shield, CheckCircle, ChartLine, Video
 } from 'lucide-react';
 
 export function Dashboard() {
@@ -295,6 +295,17 @@ export function Dashboard() {
             </CardHeader>
           </Card>
         </Link>
+        <Link to="/academic/assignments">
+          <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-orange-700">
+                <FileText className="h-5 w-5" />
+                Assignments
+              </CardTitle>
+              <CardDescription>Submit and track assignments</CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
         <Link to="/academic/grades">
           <Card className="border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader>
@@ -303,6 +314,17 @@ export function Dashboard() {
                 My Grades
               </CardTitle>
               <CardDescription>View your academic performance</CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+        <Link to="/academic/examinations">
+          <Card className="border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-blue-700">
+                <Calendar className="h-5 w-5" />
+                Examinations
+              </CardTitle>
+              <CardDescription>Exam schedules and results</CardDescription>
             </CardHeader>
           </Card>
         </Link>
