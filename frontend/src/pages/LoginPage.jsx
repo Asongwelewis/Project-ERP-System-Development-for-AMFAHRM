@@ -8,33 +8,30 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 
 import { GraduationCap, User, Shield, Users, DollarSign, Target } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-
 
 export function LoginPage() {
-	const [email, setEmail] = useState('');
+	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [role, setRole] = useState('');
 	const { login } = useAuth();
-	const navigate = useNavigate();
 
 	const handleLogin = () => {
-		if (!email || !password || !role) {
+		if (!username || !password || !role) {
 			alert('Please fill in all fields');
 			return;
 		}
 
 		// Simulate login with role-based user data
 		const userData = {
-			email,
+			username,
 			role,
+			email: `${username}@institution.edu`,
 			id: Math.random().toString(36).substr(2, 9),
-			name: email.split('@')[0],
+			name: username,
 			permissions: getUserPermissions(role)
 		};
 
 		login(userData);
-		navigate('/dashboard');
 	};
 
 	const getUserPermissions = (userRole) => {
@@ -114,8 +111,8 @@ export function LoginPage() {
 
 	const selectedRole = userRoles.find(r => r.value === role);
 
-	return (
-		<div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-orange-50 via-white to-blue-50">
+		return (
+			<div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-orange-50 via-white to-blue-50">
 			<div className="w-full max-w-6xl grid md:grid-cols-2 gap-8 items-center">
 				{/* Left side - Branding and Info */}
 				<div className="space-y-6">
@@ -139,9 +136,9 @@ export function LoginPage() {
 
 					{/* Role Information Display */}
 					{selectedRole && (
-						<Card className="border-orange-200 bg-white">
+						<Card className="border-orange-200 dark:border-orange-800 bg-gradient-to-br from-orange-50/50 to-blue-50/50 dark:from-orange-950/20 dark:to-blue-950/20">
 							<CardHeader className="pb-3">
-								<CardTitle className="flex items-center gap-2 text-orange-700">
+								<CardTitle className="flex items-center gap-2 text-orange-700 dark:text-orange-300">
 									<selectedRole.icon className="h-5 w-5" />
 									{selectedRole.label} Access
 								</CardTitle>
@@ -186,52 +183,55 @@ export function LoginPage() {
 				</div>
 
 				{/* Right side - Login Form */}
-				<Card className="shadow-xl border-orange-200 bg-white">
-					<CardHeader className="text-center bg-gradient-to-r from-orange-50 to-blue-50 rounded-t-lg">
-						<CardTitle className="text-orange-700">Sign In to Your Account</CardTitle>
-						<CardDescription>Access your personalized dashboard and tools</CardDescription>
-					</CardHeader>
-					<CardContent className="space-y-6 p-6 bg-white">
+						<Card className="shadow-xl border-orange-200 bg-white">
+							<CardHeader className="text-center bg-gradient-to-r from-orange-50 to-blue-50 rounded-t-lg">
+								<CardTitle className="text-orange-700">Sign In to Your Account</CardTitle>
+								<CardDescription>Access your personalized dashboard and tools</CardDescription>
+							</CardHeader>
+							<CardContent className="space-y-6 p-6 bg-white">
 						<div className="space-y-2">
-							<Label htmlFor="email">Email</Label>
-							<Input
-								id="email"
-								type="email"
-								placeholder="Enter your email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								className="border-orange-200 focus:border-orange-400 bg-white"
-							/>
+							<Label htmlFor="username">Username</Label>
+											<Input
+												id="username"
+												type="text"
+												placeholder="Enter your username"
+												value={username}
+												onChange={(e) => setUsername(e.target.value)}
+												className="border-orange-200 focus:border-orange-400 bg-white"
+											/>
 						</div>
+            
 						<div className="space-y-2">
 							<Label htmlFor="password">Password</Label>
-							<Input
-								id="password"
-								type="password"
-								placeholder="Enter your password"
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
-								className="border-orange-200 focus:border-orange-400 bg-white"
-							/>
+											<Input
+												id="password"
+												type="password"
+												placeholder="Enter your password"
+												value={password}
+												onChange={(e) => setPassword(e.target.value)}
+												className="border-orange-200 focus:border-orange-400 bg-white"
+											/>
 						</div>
+            
 						<div className="space-y-2">
 							<Label htmlFor="role">Role</Label>
-							<Select value={role} onValueChange={setRole}>
-								<SelectTrigger className="border-orange-200 focus:border-orange-400 bg-white">
-									<SelectValue placeholder="Select your role" />
-								</SelectTrigger>
-								<SelectContent>
-									{userRoles.map((roleOption) => (
-										<SelectItem key={roleOption.value} value={roleOption.value}>
-											<div className="flex items-center gap-2">
-												<roleOption.icon className="h-4 w-4" />
-												{roleOption.label}
-											</div>
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
+											<Select value={role} onValueChange={setRole}>
+												<SelectTrigger className="border-orange-200 focus:border-orange-400 bg-white">
+													<SelectValue placeholder="Select your role" />
+												</SelectTrigger>
+												<SelectContent>
+													{userRoles.map((roleOption) => (
+														<SelectItem key={roleOption.value} value={roleOption.value}>
+															<div className="flex items-center gap-2">
+																<roleOption.icon className="h-4 w-4" />
+																{roleOption.label}
+															</div>
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
 						</div>
+            
 						<Button 
 							onClick={handleLogin}
 							className="w-full bg-gradient-to-r from-orange-500 to-blue-500 hover:from-orange-600 hover:to-blue-600 text-white"
@@ -239,9 +239,7 @@ export function LoginPage() {
 						>
 							Sign In
 						</Button>
-						<div className="text-xs text-center mt-2">
-							<button type="button" className="text-blue-600 hover:underline bg-transparent border-none p-0 m-0 cursor-pointer">Forgot password?</button>
-						</div>
+
 						{/* Demo credentials */}
 						<div className="border-t pt-4">
 							<p className="text-sm text-muted-foreground text-center mb-3">Demo Credentials:</p>

@@ -1,12 +1,12 @@
 
 import './App.css';
+import { LoginPage } from './pages/LoginPage';
 import { AuthProvider } from './context/AuthContext';
-import { AppRouter } from './routers/AppRouter';
 
 function App() {
   return (
     <AuthProvider>
-      <AppRouter />
+      <LoginPage />
     </AuthProvider>
   );
 }
