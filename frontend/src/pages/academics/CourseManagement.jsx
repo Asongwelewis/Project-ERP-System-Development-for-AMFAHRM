@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../../components/ui/dialog';
 import { PlusCircle, Search, BookOpen, Users, Calendar, Archive } from 'lucide-react';
 import { COURSE_STATS, COURSE_LIST, DEPARTMENTS, RECENT_ACTIVITIES } from './constants';
+import { CourseForm } from '../../components/academics/CourseForm';
 
 export function CourseManagement() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -47,7 +48,18 @@ export function CourseManagement() {
               <DialogHeader>
                 <DialogTitle>Create New Course</DialogTitle>
               </DialogHeader>
-              {/* Add your course creation form here */}
+              <CourseForm 
+                onSubmit={async (data) => {
+                  try {
+                    // Here you would typically make an API call to create the course
+                    console.log('Creating course:', data);
+                    // For now, just close the dialog
+                    setIsAddingCourse(false);
+                  } catch (error) {
+                    console.error('Error creating course:', error);
+                  }
+                }}
+              />
             </DialogContent>
           </Dialog>
         </div>

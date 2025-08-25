@@ -52,17 +52,53 @@ export function LiveClassroom() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
           {/* Main Video Area */}
           <div className="lg:col-span-3 space-y-4">
+            {/* Main Video Area */}
             <Card className="h-96">
               <CardContent className="p-4">
                 <div className="grid grid-cols-2 gap-4 h-full">
-                  {participants.map((participant) => (
-                    <div key={participant.id} className="relative bg-gray-100 rounded-lg overflow-hidden">
-                      <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between">
-                        <span className="text-white text-sm bg-black/50 px-2 py-1 rounded">
-                          {participant.name}
-                        </span>
-                        <div className="flex gap-1">
-                          {!participant.audio && <MicOff className="h-4 w-4 text-red-400" />}
+                  {participants.map((participant, index) => (
+                    <div 
+                      key={participant.id} 
+                      className={`relative rounded-lg overflow-hidden ${
+                        index === 0 ? 'col-span-2 row-span-2' : ''
+                      }`}
+                    >
+                      <div className="absolute inset-0 bg-gray-900/10 dark:bg-gray-900/30">
+                        {participant.video ? (
+                          <div className="w-full h-full bg-gradient-to-br from-orange-100 to-blue-100 dark:from-orange-900/20 dark:to-blue-900/20 flex items-center justify-center">
+                            {/* Video placeholder - in a real app, this would be a video stream */}
+                            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-orange-200 to-blue-200 dark:from-orange-800 dark:to-blue-800 flex items-center justify-center text-2xl font-bold text-orange-600 dark:text-orange-300">
+                              {participant.name.charAt(0)}
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="w-full h-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                            <VideoOff className="h-8 w-8 text-gray-400 dark:text-gray-600" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                        <div className="flex items-center justify-between">
+                          <span className="text-white text-sm font-medium">
+                            {participant.name}
+                            {participant.role === 'instructor' && (
+                              <Badge variant="outline" className="ml-2 bg-orange-500/20 text-orange-200 border-orange-500/30">
+                                Instructor
+                              </Badge>
+                            )}
+                          </span>
+                          <div className="flex gap-2">
+                            {!participant.audio && (
+                              <div className="bg-red-500/20 p-1 rounded">
+                                <MicOff className="h-4 w-4 text-red-300" />
+                              </div>
+                            )}
+                            {!participant.video && (
+                              <div className="bg-gray-500/20 p-1 rounded">
+                                <VideoOff className="h-4 w-4 text-gray-300" />
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>

@@ -16,23 +16,38 @@ export function LoginPage() {
 	const { login } = useAuth();
 
 	const handleLogin = () => {
-		if (!username || !password || !role) {
-			alert('Please fill in all fields');
-			return;
-		}
+    if (!username || !password || !role) {
+      alert('Please fill in all fields');
+      return;
+    }
 
-		// Simulate login with role-based user data
-		const userData = {
-			username,
-			role,
-			email: `${username}@institution.edu`,
-			id: Math.random().toString(36).substr(2, 9),
-			name: username,
-			permissions: getUserPermissions(role)
-		};
+    // Check demo credentials
+    const isValidCredential = (
+      (username === 'admin' && password === 'admin123' && role === 'system_admin') ||
+      (username === 'teacher' && password === 'teacher123' && role === 'academic_staff') ||
+      (username === 'student' && password === 'student123' && role === 'student') ||
+      (username === 'hr' && password === 'hr123' && role === 'hr_personnel')
+    );
 
-		login(userData);
-	};
+    if (!isValidCredential) {
+      alert('Invalid credentials. Please check your username, password, and role.');
+      return;
+    }
+
+    // Create user data with role-based permissions
+    const userData = {
+      username,
+      role,
+      email: `${username}@institution.edu`,
+      id: Math.random().toString(36).substr(2, 9),
+      name: username.charAt(0).toUpperCase() + username.slice(1), // Capitalize first letter
+      permissions: getUserPermissions(role)
+    };
+
+    // Call the login function from context
+    login(userData);
+    // The ProtectedRoute will handle the redirect
+  };
 
 	const getUserPermissions = (userRole) => {
 		const permissions = {
@@ -219,15 +234,21 @@ export function LoginPage() {
 												<SelectTrigger className="border-orange-200 focus:border-orange-400 bg-white">
 													<SelectValue placeholder="Select your role" />
 												</SelectTrigger>
-												<SelectContent>
-													{userRoles.map((roleOption) => (
-														<SelectItem key={roleOption.value} value={roleOption.value}>
-															<div className="flex items-center gap-2">
-																<roleOption.icon className="h-4 w-4" />
-																{roleOption.label}
-															</div>
-														</SelectItem>
-													))}
+												<SelectContent className="bg-white border-orange-200">
+													<div className="bg-white rounded-md p-1">
+														{userRoles.map((roleOption) => (
+															<SelectItem 
+																key={roleOption.value} 
+																value={roleOption.value} 
+																className="relative flex cursor-pointer select-none items-center rounded-sm py-1.5 px-2 text-sm outline-none hover:bg-orange-50 hover:text-orange-600 data-[active]:bg-orange-50 data-[active]:text-orange-600"
+															>
+																<div className="flex items-center gap-2">
+																	<roleOption.icon className="h-4 w-4" />
+																	{roleOption.label}
+																</div>
+															</SelectItem>
+														))}
+													</div>
 												</SelectContent>
 											</Select>
 						</div>

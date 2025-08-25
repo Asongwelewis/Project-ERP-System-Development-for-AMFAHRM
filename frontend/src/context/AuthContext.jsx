@@ -1,27 +1,43 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-	const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    // Check if user data exists in localStorage
+    const savedUser = localStorage.getItem('user');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+  const [loading, setLoading] = useState(true);
 
-	const login = (userData) => {
-		setUser(userData);
-		// Optionally, store user in localStorage/sessionStorage for persistence
-	};
+  useEffect(() => {
+    // Simulate checking authentication status
+    setLoading(false);
+  }, []);
 
-	const logout = () => {
-		setUser(null);
-		// Optionally, remove user from storage
-	};
+  const login = (userData) => {
+    setUser(userData);
+    // Store user data in localStorage for persistence
+    localStorage.setItem('user', JSON.stringify(userData));
+  };
 
-	return (
-		<AuthContext.Provider value={{ user, login, logout }}>
-			{children}
-		</AuthContext.Provider>
-	);
+  const logout = () => {
+    setUser(null);
+    // Remove user data from localStorage
+    localStorage.removeItem('user');
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
-	return useContext(AuthContext);
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 }

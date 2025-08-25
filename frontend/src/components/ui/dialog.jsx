@@ -42,8 +42,8 @@ export function DialogContent({ className = '', children, ...props }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/40" onClick={() => onOpenChange?.(false)} />
-      <div className={twMerge("relative z-10 w-full max-w-lg rounded-md bg-white p-4 shadow-lg", className)} {...props}>
+      <div className="absolute inset-0 bg-black/20 backdrop-blur-sm dark:bg-black/40" onClick={() => onOpenChange?.(false)} />
+      <div className={twMerge("relative z-10 w-full max-w-lg rounded-md bg-white dark:bg-gray-900 p-4 shadow-lg border border-orange-200 dark:border-orange-800", className)} {...props}>
         {children}
       </div>
     </div>
