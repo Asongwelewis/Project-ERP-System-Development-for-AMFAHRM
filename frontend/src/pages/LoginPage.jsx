@@ -198,12 +198,12 @@ export function LoginPage() {
 				</div>
 
 				{/* Right side - Login Form */}
-						<Card className="shadow-xl border-orange-200 bg-white">
+						<Card className="shadow-xl border-orange-200 bg-white dark:bg-white">
 							<CardHeader className="text-center bg-gradient-to-r from-orange-50 to-blue-50 rounded-t-lg">
 								<CardTitle className="text-orange-700">Sign In to Your Account</CardTitle>
 								<CardDescription>Access your personalized dashboard and tools</CardDescription>
 							</CardHeader>
-							<CardContent className="space-y-6 p-6 bg-white">
+							<CardContent className="space-y-6 p-6 bg-white dark:bg-white">
 						<div className="space-y-2">
 							<Label htmlFor="username">Username</Label>
 											<Input

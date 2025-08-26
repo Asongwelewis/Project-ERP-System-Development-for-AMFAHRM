@@ -23,7 +23,7 @@ export function Dashboard() {
         </p>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-orange-200">
+        <Card className="border-orange-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Users</CardTitle>
             <Users className="h-4 w-4 text-orange-500" />
@@ -33,7 +33,7 @@ export function Dashboard() {
             <p className="text-xs text-muted-foreground">+12 new this week</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-blue-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">System Health</CardTitle>
             <CheckCircle className="h-4 w-4 text-blue-500" />
@@ -43,7 +43,7 @@ export function Dashboard() {
             <p className="text-xs text-muted-foreground">All systems operational</p>
           </CardContent>
         </Card>
-        <Card className="border-orange-200">
+        <Card className="border-orange-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Active Sessions</CardTitle>
             <Clock className="h-4 w-4 text-orange-500" />
@@ -53,7 +53,7 @@ export function Dashboard() {
             <p className="text-xs text-muted-foreground">Current active users</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-blue-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Security Alerts</CardTitle>
             <Shield className="h-4 w-4 text-blue-500" />
@@ -65,7 +65,7 @@ export function Dashboard() {
         </Card>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+        <Card className="border-orange-200 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-orange-700">
               <Users className="h-5 w-5" />
@@ -86,7 +86,7 @@ export function Dashboard() {
             </Button>
           </CardContent>
         </Card>
-        <Card className="border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
+        <Card className="border-blue-200 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-blue-700">
               <Settings className="h-5 w-5" />
@@ -107,7 +107,7 @@ export function Dashboard() {
             </Button>
           </CardContent>
         </Card>
-        <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+        <Card className="border-orange-200 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-orange-700">
               <BarChart3 className="h-5 w-5" />
@@ -142,7 +142,7 @@ export function Dashboard() {
         </p>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-orange-200">
+        <Card className="border-orange-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">My Courses</CardTitle>
             <BookOpen className="h-4 w-4 text-orange-500" />
@@ -152,7 +152,7 @@ export function Dashboard() {
             <p className="text-xs text-muted-foreground">Active this semester</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-blue-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Students</CardTitle>
             <Users className="h-4 w-4 text-blue-500" />
@@ -162,7 +162,7 @@ export function Dashboard() {
             <p className="text-xs text-muted-foreground">Across all courses</p>
           </CardContent>
         </Card>
-        <Card className="border-orange-200">
+        <Card className="border-orange-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Pending Grades</CardTitle>
             <Award className="h-4 w-4 text-orange-500" />
@@ -172,7 +172,7 @@ export function Dashboard() {
             <p className="text-xs text-muted-foreground">Assignments to grade</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-blue-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Upcoming Exams</CardTitle>
             <Calendar className="h-4 w-4 text-blue-500" />
@@ -185,7 +185,7 @@ export function Dashboard() {
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Link to="/dashboard/student/courses">
-          <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="border-orange-200 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-orange-700">
                 <BookOpen className="h-5 w-5" />
@@ -196,7 +196,7 @@ export function Dashboard() {
           </Card>
         </Link>
         <Link to="/academic/performance">
-          <Card className="border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="border-blue-200 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-blue-700">
                 <BarChart3 className="h-5 w-5" />
@@ -207,7 +207,7 @@ export function Dashboard() {
           </Card>
         </Link>
         <Link to="/academic/grades">
-          <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="border-orange-200 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-orange-700">
                 <Award className="h-5 w-5" />
@@ -231,7 +231,7 @@ export function Dashboard() {
         </p>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-orange-200">
+        <Card className="border-orange-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Current GPA</CardTitle>
             <Award className="h-4 w-4 text-orange-500" />
@@ -241,7 +241,7 @@ export function Dashboard() {
             <p className="text-xs text-muted-foreground">Out of 4.0</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-blue-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Enrolled Courses</CardTitle>
             <BookOpen className="h-4 w-4 text-blue-500" />
@@ -251,7 +251,7 @@ export function Dashboard() {
             <p className="text-xs text-muted-foreground">This semester</p>
           </CardContent>
         </Card>
-        <Card className="border-orange-200">
+        <Card className="border-orange-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Attendance</CardTitle>
             <CheckCircle className="h-4 w-4 text-orange-500" />
@@ -261,7 +261,7 @@ export function Dashboard() {
             <p className="text-xs text-muted-foreground">Overall rate</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-blue-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Pending Fees</CardTitle>
             <DollarSign className="h-4 w-4 text-blue-500" />
@@ -274,7 +274,7 @@ export function Dashboard() {
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Link to="/dashboard/student/courses">
-          <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="border-orange-200 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-orange-700">
                 <BookOpen className="h-5 w-5" />
@@ -285,7 +285,7 @@ export function Dashboard() {
           </Card>
         </Link>
         <Link to="/dashboard/student/grades">
-          <Card className="border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="border-blue-200 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-blue-700">
                 <Award className="h-5 w-5" />
@@ -296,7 +296,7 @@ export function Dashboard() {
           </Card>
         </Link>
         <Link to="/marketing-finance/tuition">
-          <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="border-orange-200 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-orange-700">
                 <DollarSign className="h-5 w-5" />
@@ -409,7 +409,7 @@ export function Dashboard() {
         </p>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-orange-200">
+        <Card className="border-orange-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Monthly Revenue</CardTitle>
             <DollarSign className="h-4 w-4 text-orange-500" />
@@ -419,7 +419,7 @@ export function Dashboard() {
             <p className="text-xs text-muted-foreground">+8.2% from last month</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-blue-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Pending Invoices</CardTitle>
             <FileText className="h-4 w-4 text-blue-500" />
@@ -429,7 +429,7 @@ export function Dashboard() {
             <p className="text-xs text-muted-foreground">Awaiting payment</p>
           </CardContent>
         </Card>
-        <Card className="border-orange-200">
+        <Card className="border-orange-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Budget Utilization</CardTitle>
             <BarChart3 className="h-4 w-4 text-orange-500" />
@@ -439,7 +439,7 @@ export function Dashboard() {
             <p className="text-xs text-muted-foreground">Current fiscal year</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-blue-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Profit Margin</CardTitle>
             <TrendingUp className="h-4 w-4 text-blue-500" />
@@ -452,7 +452,7 @@ export function Dashboard() {
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Link to="/marketing-finance/tuition">
-          <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="border-orange-200 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-orange-700">
                 <FileText className="h-5 w-5" />
@@ -463,7 +463,7 @@ export function Dashboard() {
           </Card>
         </Link>
         <Link to="/marketing-finance/expenses">
-          <Card className="border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="border-blue-200 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-blue-700">
                 <BarChart3 className="h-5 w-5" />
@@ -474,7 +474,7 @@ export function Dashboard() {
           </Card>
         </Link>
         <Link to="/marketing-finance/reports">
-          <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="border-orange-200 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-orange-700">
                 <ChartLine className="h-5 w-5" />
@@ -498,7 +498,7 @@ export function Dashboard() {
         </p>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-orange-200">
+        <Card className="border-orange-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Active Campaigns</CardTitle>
             <Target className="h-4 w-4 text-orange-500" />
@@ -508,7 +508,7 @@ export function Dashboard() {
             <p className="text-xs text-muted-foreground">Currently running</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-blue-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Leads</CardTitle>
             <Users className="h-4 w-4 text-blue-500" />
@@ -518,7 +518,7 @@ export function Dashboard() {
             <p className="text-xs text-muted-foreground">This month</p>
           </CardContent>
         </Card>
-        <Card className="border-orange-200">
+        <Card className="border-orange-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Conversion Rate</CardTitle>
             <TrendingUp className="h-4 w-4 text-orange-500" />
@@ -528,7 +528,7 @@ export function Dashboard() {
             <p className="text-xs text-muted-foreground">+2.1% improvement</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-blue-200 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">ROI</CardTitle>
             <BarChart3 className="h-4 w-4 text-blue-500" />
@@ -541,7 +541,7 @@ export function Dashboard() {
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Link to="/marketing-finance/campaigns">
-          <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="border-orange-200 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-orange-700">
                 <Target className="h-5 w-5" />
@@ -552,7 +552,7 @@ export function Dashboard() {
           </Card>
         </Link>
         <Link to="/marketing-finance/analytics">
-          <Card className="border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="border-blue-200 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-blue-700">
                 <BarChart3 className="h-5 w-5" />
@@ -562,7 +562,7 @@ export function Dashboard() {
             </CardHeader>
           </Card>
         </Link>
-        <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+        <Card className="border-orange-200 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-orange-700">
               <Calendar className="h-5 w-5" />

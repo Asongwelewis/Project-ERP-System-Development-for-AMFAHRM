@@ -39,7 +39,7 @@ export function AssignmentSubmission({ assignment, onSubmit }) {
   };
 
   return (
-    <Card>
+    <Card className="bg-white dark:bg-white">
       <CardHeader>
         <CardTitle>Submit Assignment: {assignment.title}</CardTitle>
       </CardHeader>
