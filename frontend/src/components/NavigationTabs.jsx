@@ -14,12 +14,12 @@ export function NavigationTabs() {
     },
     {
       label: 'Academics',
-      path: '/academic/courses',
+      path: '/dashboard/student/courses',
       icon: BookOpen
     },
     {
       label: 'Live Classroom',
-      path: '/academic/live-classroom',
+      path: '/dashboard/student/live-classroom',
       icon: Video
     }
   ];

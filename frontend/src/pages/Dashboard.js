@@ -184,7 +184,7 @@ export function Dashboard() {
         </Card>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Link to="/academic/courses">
+        <Link to="/dashboard/student/courses">
           <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-orange-700">
@@ -273,7 +273,7 @@ export function Dashboard() {
         </Card>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Link to="/academic/courses">
+        <Link to="/dashboard/student/courses">
           <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-orange-700">
@@ -284,7 +284,7 @@ export function Dashboard() {
             </CardHeader>
           </Card>
         </Link>
-        <Link to="/academic/grades">
+        <Link to="/dashboard/student/grades">
           <Card className="border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-blue-700">

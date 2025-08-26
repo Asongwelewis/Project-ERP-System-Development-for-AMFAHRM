@@ -25,7 +25,7 @@ export function HRDashboard() {
 
         {/* HR Stats */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card className="border-orange-200">
+          <Card className="border-orange-200 bg-white dark:bg-white">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Employees</CardTitle>
               <Users className="h-4 w-4 text-orange-500" />
@@ -38,7 +38,7 @@ export function HRDashboard() {
             </CardContent>
           </Card>
           
-          <Card className="border-blue-200">
+          <Card className="border-blue-200 bg-white dark:bg-white">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Attendance Rate</CardTitle>
               <Clock className="h-4 w-4 text-blue-500" />
@@ -51,7 +51,7 @@ export function HRDashboard() {
             </CardContent>
           </Card>
           
-          <Card className="border-orange-200">
+          <Card className="border-orange-200 bg-white dark:bg-white">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Pending Leaves</CardTitle>
               <Calendar className="h-4 w-4 text-orange-500" />
@@ -64,7 +64,7 @@ export function HRDashboard() {
             </CardContent>
           </Card>
           
-          <Card className="border-blue-200">
+          <Card className="border-blue-200 bg-white dark:bg-white">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Payroll Budget</CardTitle>
               <DollarSign className="h-4 w-4 text-blue-500" />
@@ -81,7 +81,7 @@ export function HRDashboard() {
         {/* Navigation Cards */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Link to="/admin-hr/employees">
-            <Card className="border-orange-200 hover:shadow-lg transition-shadow cursor-pointer">
+            <Card className="border-orange-200 bg-white dark:bg-white hover:shadow-lg transition-shadow cursor-pointer">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-orange-700">
                   <Users className="h-5 w-5" />
@@ -93,7 +93,7 @@ export function HRDashboard() {
           </Link>
           
           <Link to="/admin-hr/attendance">
-            <Card className="border-blue-200 hover:shadow-lg transition-shadow cursor-pointer">
+            <Card className="border-blue-200 bg-white dark:bg-white hover:shadow-lg transition-shadow cursor-pointer">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-blue-700">
                   <Clock className="h-5 w-5" />
@@ -105,7 +105,7 @@ export function HRDashboard() {
           </Link>
           
           <Link to="/admin-hr/payroll">
-            <Card className="border-orange-200 hover:shadow-lg transition-shadow cursor-pointer">
+            <Card className="border-orange-200 bg-white dark:bg-white hover:shadow-lg transition-shadow cursor-pointer">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-orange-700">
                   <DollarSign className="h-5 w-5" />
@@ -117,7 +117,7 @@ export function HRDashboard() {
           </Link>
           
           <Link to="/admin-hr/leave">
-            <Card className="border-blue-200 hover:shadow-lg transition-shadow cursor-pointer">
+            <Card className="border-blue-200 bg-white dark:bg-white hover:shadow-lg transition-shadow cursor-pointer">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-blue-700">
                   <Calendar className="h-5 w-5" />
@@ -131,7 +131,7 @@ export function HRDashboard() {
 
         <div className="grid gap-4 md:grid-cols-2">
           {/* Department Overview */}
-          <Card className="border-orange-200">
+          <Card className="border-orange-200 bg-white dark:bg-white">
             <CardHeader>
               <CardTitle className="text-orange-700">Department Overview</CardTitle>
               <CardDescription>Staff distribution and budget utilization</CardDescription>
@@ -157,7 +157,7 @@ export function HRDashboard() {
           </Card>
 
           {/* Recent HR Activities */}
-          <Card className="border-blue-200">
+          <Card className="border-blue-200 bg-white dark:bg-white">
             <CardHeader>
               <CardTitle className="text-blue-700">Recent Activities</CardTitle>
               <CardDescription>Latest HR operations and updates</CardDescription>

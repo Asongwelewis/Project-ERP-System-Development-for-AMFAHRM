@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Layout } from '../../components/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Badge } from '../../components/ui/badge';
+import { useAuth } from '../../context/AuthContext';
 import {
   Video,
   VideoOff,
@@ -13,15 +14,84 @@ import {
   Users,
   MessageCircle,
   Hand,
-  Monitor
+  Monitor,
+  Pen,
+  Eraser,
+  Send
 } from 'lucide-react';
 
-export function LiveClassroom() {
+export function LiveClassroom({ embedded = false }) {
+  const { user } = useAuth();
   const [isVideoOn, setIsVideoOn] = useState(true);
   const [isAudioOn, setIsAudioOn] = useState(true);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [handRaised, setHandRaised] = useState(false);
   const [chatMessage, setChatMessage] = useState('');
+  const [chatMessages, setChatMessages] = useState([
+    { id: 1, user: 'Dr. Smith', message: "Welcome to today's class!", time: '10:00', role: 'instructor' },
+    { id: 2, user: 'John Doe', message: 'Thank you professor!', time: '10:01', role: 'student' }
+  ]);
+
+  // Whiteboard state
+  const canvasRef = useRef(null);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [drawingTool, setDrawingTool] = useState('pen');
+  const [drawingColor, setDrawingColor] = useState('#000000');
+
+  const startDrawing = (e) => {
+    setIsDrawing(true);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  };
+
+  const draw = (e) => {
+    if (!isDrawing) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    ctx.lineWidth = drawingTool === 'eraser' ? 20 : 2;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = drawingTool === 'eraser' ? '#ffffff' : drawingColor;
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  };
+
+  const stopDrawing = () => setIsDrawing(false);
+
+  const clearCanvas = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  };
+
+  const sendMessage = () => {
+    const text = chatMessage.trim();
+    if (!text) return;
+    const newMessage = {
+      id: chatMessages.length + 1,
+      user: user?.name || 'Anonymous',
+      message: text,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      role: user?.role || 'student'
+    };
+    setChatMessages([...chatMessages, newMessage]);
+    setChatMessage('');
+  };
 
   const participants = [
     { id: 1, name: 'Dr. Smith', role: 'instructor', video: true, audio: true },
@@ -30,30 +100,31 @@ export function LiveClassroom() {
     { id: 4, name: 'Mike Johnson', role: 'student', video: true, audio: true },
   ];
 
-  return (
-    <Layout>
+  const content = (
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-orange-700">Live Classroom</h1>
-            <p className="text-gray-600">
-              Computer Science 101 - Introduction to Programming
-            </p>
+        {!embedded && (
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-orange-700">Live Classroom</h1>
+              <p className="text-gray-600">
+                Computer Science 101 - Introduction to Programming
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse" />
+                Live
+              </Badge>
+              <Badge variant="outline">{participants.length} participants</Badge>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-              <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse" />
-              Live
-            </Badge>
-            <Badge variant="outline">{participants.length} participants</Badge>
-          </div>
-        </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
           {/* Main Video Area */}
           <div className="lg:col-span-3 space-y-4">
             {/* Main Video Area */}
-            <Card className="h-96">
+            <Card className="h-96 bg-white dark:bg-white">
               <CardContent className="p-4">
                 <div className="grid grid-cols-2 gap-4 h-full">
                   {participants.map((participant, index) => (
@@ -107,8 +178,55 @@ export function LiveClassroom() {
               </CardContent>
             </Card>
 
+            {/* Interactive Whiteboard */}
+            <Card className="bg-white dark:bg-white">
+              <CardHeader className="pb-2">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg">Interactive Whiteboard</CardTitle>
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
+                      <Button
+                        variant={drawingTool === 'pen' ? 'default' : 'outline'}
+                        size="sm"
+                        onClick={() => setDrawingTool('pen')}
+                      >
+                        <Pen className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant={drawingTool === 'eraser' ? 'default' : 'outline'}
+                        size="sm"
+                        onClick={() => setDrawingTool('eraser')}
+                      >
+                        <Eraser className="h-4 w-4" />
+                      </Button>
+                      <input
+                        type="color"
+                        value={drawingColor}
+                        onChange={(e) => setDrawingColor(e.target.value)}
+                        className="w-8 h-8 rounded border"
+                        aria-label="Drawing color"
+                      />
+                    </div>
+                    <Button variant="outline" size="sm" onClick={clearCanvas}>Clear</Button>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="p-4 pt-0">
+                <canvas
+                  ref={canvasRef}
+                  width={800}
+                  height={300}
+                  className="w-full h-full border rounded-lg bg-white cursor-crosshair"
+                  onMouseDown={startDrawing}
+                  onMouseMove={draw}
+                  onMouseUp={stopDrawing}
+                  onMouseLeave={stopDrawing}
+                />
+              </CardContent>
+            </Card>
+
             {/* Controls */}
-            <Card>
+            <Card className="bg-white dark:bg-white">
               <CardContent className="p-4">
                 <div className="flex items-center justify-center gap-4">
                   <Button
@@ -150,7 +268,7 @@ export function LiveClassroom() {
 
           {/* Sidebar */}
           <div className="space-y-4">
-            <Card>
+            <Card className="bg-white dark:bg-white">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Users className="h-5 w-5" />
@@ -176,32 +294,52 @@ export function LiveClassroom() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="flex flex-col bg-white dark:bg-white">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <MessageCircle className="h-5 w-5" />
                   Chat
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-4">
-                <div className="space-y-4">
-                  <div className="h-48 border rounded-lg p-2 mb-2 overflow-y-auto">
-                    {/* Chat messages would go here */}
+              <CardContent className="p-4 pt-0 flex-1 flex flex-col">
+                <div className="flex-1 mb-3 h-48 overflow-y-auto">
+                  <div className="space-y-3">
+                    {chatMessages.map((m) => (
+                      <div key={m.id} className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-medium">{m.user}</span>
+                          {m.role === 'instructor' && (
+                            <Badge variant="secondary" className="text-xs">Instructor</Badge>
+                          )}
+                          <span className="text-xs text-gray-500">{m.time}</span>
+                        </div>
+                        <p className="text-sm bg-gray-100 p-2 rounded-lg">{m.message}</p>
+                      </div>
+                    ))}
                   </div>
-                  <div className="flex gap-2">
-                    <Input
-                      placeholder="Type a message..."
-                      value={chatMessage}
-                      onChange={(e) => setChatMessage(e.target.value)}
-                    />
-                    <Button>Send</Button>
-                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Type a message..."
+                    value={chatMessage}
+                    onChange={(e) => setChatMessage(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') sendMessage(); }}
+                    className="flex-1"
+                  />
+                  <Button onClick={sendMessage} size="sm">
+                    <Send className="h-4 w-4" />
+                  </Button>
                 </div>
               </CardContent>
             </Card>
           </div>
         </div>
       </div>
+  );
+
+  return embedded ? content : (
+    <Layout>
+      {content}
     </Layout>
   );
 }

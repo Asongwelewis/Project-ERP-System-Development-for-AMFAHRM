@@ -47,7 +47,7 @@ export function Layout({ children }) {
 
     const roleBasedItems = [
       // Academic Module - Available to Academic Staff and Students
-      { path: '/academic/courses', icon: BookOpen, label: 'Academic', allowedRoles: ['academic_staff', 'student', 'system_admin'] },
+      { path: '/dashboard/student/courses', icon: BookOpen, label: 'Academic', allowedRoles: ['academic_staff', 'student', 'system_admin'] },
       
       // Marketing & Finance - Available to Finance Staff, Marketing Team, and System Admin
       { path: '/marketing-finance', icon: DollarSign, label: 'Finance & Marketing', allowedRoles: ['finance_staff', 'marketing_team', 'system_admin'] },
@@ -56,7 +56,7 @@ export function Layout({ children }) {
       { path: '/admin-hr', icon: Users, label: 'Admin & HR', allowedRoles: ['hr_personnel', 'system_admin'] },
       
       // Live Classroom - Available to Academic Staff and Students
-      { path: '/academic/live-classroom', icon: GraduationCap, label: 'Live Classroom', allowedRoles: ['academic_staff', 'student', 'system_admin'] }
+      { path: '/dashboard/student/live-classroom', icon: GraduationCap, label: 'Live Classroom', allowedRoles: ['academic_staff', 'student', 'system_admin'] }
     ];
 
     return [...baseItems, ...roleBasedItems].filter(item => 

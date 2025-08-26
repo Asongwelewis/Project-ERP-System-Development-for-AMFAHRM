@@ -33,7 +33,7 @@ export function Leave() {
 
         {/* Leave Stats */}
         <div className="grid gap-4 md:grid-cols-4">
-          <Card className="border-orange-200">
+          <Card className="border-orange-200 bg-white dark:bg-white">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium">Pending Requests</CardTitle>
             </CardHeader>
@@ -43,7 +43,7 @@ export function Leave() {
             </CardContent>
           </Card>
           
-          <Card className="border-blue-200">
+          <Card className="border-blue-200 bg-white dark:bg-white">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium">Approved</CardTitle>
             </CardHeader>
@@ -53,7 +53,7 @@ export function Leave() {
             </CardContent>
           </Card>
           
-          <Card className="border-orange-200">
+          <Card className="border-orange-200 bg-white dark:bg-white">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium">Rejected</CardTitle>
             </CardHeader>
@@ -63,7 +63,7 @@ export function Leave() {
             </CardContent>
           </Card>
           
-          <Card className="border-blue-200">
+          <Card className="border-blue-200 bg-white dark:bg-white">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium">Total Days</CardTitle>
             </CardHeader>
@@ -75,7 +75,7 @@ export function Leave() {
         </div>
 
         {/* Leave Requests Table */}
-        <Card className="border-blue-200">
+        <Card className="border-blue-200 bg-white dark:bg-white">
           <CardHeader>
             <CardTitle className="text-blue-700">Leave Requests</CardTitle>
             <CardDescription>Manage employee leave applications</CardDescription>

@@ -28,8 +28,8 @@ export function MenuBar() {
       case 'student':
         return [
           { label: 'Dashboard', path: '/dashboard' },
-          { label: 'My Courses', path: '/academic/courses' },
-          { label: 'My Grades', path: '/academic/grades' },
+          { label: 'My Courses', path: '/dashboard/student/courses' },
+          { label: 'My Grades', path: '/dashboard/student/grades' },
           { label: 'Schedule', path: '/academic/schedule' },
           { label: 'Fee Payments', path: '/marketing-finance/tuition' }
         ];

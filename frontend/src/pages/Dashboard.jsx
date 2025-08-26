@@ -1,94 +1,95 @@
 import React from 'react';
-import { Layout } from '../components/Layout';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Progress } from '../components/ui/progress';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useNavigate, useParams, Link } from 'react-router-dom';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/ui/tabs';
+import { LiveClassroom } from './academics/LiveClassroom';
+import { Courses } from './academics/Courses';
+import Assignments from './academics/Assignments';
+import Grades from './academics/Grades';
+import { Layout } from '../components/Layout';
 import {
   BookOpen, Users, Calendar, Award, Clock, DollarSign, TrendingUp, Target,
-  BarChart3, FileText, Settings, Shield, CheckCircle, ChartLine, Video
+  BarChart3, FileText, Settings, Shield, CheckCircle, ChartLine, Video, Home, Book, FileCheck, ClipboardList, GraduationCap
 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export function Dashboard() {
   const { user } = useAuth();
+  // Note: navigation and params are handled inside StudentDashboard
 
   // --- System Admin Dashboard ---
   const renderSystemAdminDashboard = () => (
     <div className="space-y-6">
-      <div className="bg-gradient-to-r from-orange-50 to-blue-50 p-6 rounded-lg border border-orange-200">
-        <h1 className="text-orange-600">System Administration Dashboard</h1>
-        <p className="text-gray-500">
-          Comprehensive system management and oversight
-        </p>
-      </div>
+      {/* Removed inner header to avoid duplicate headers with Layout */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-orange-200">
+        <Card className="border-orange-200 dark:border-orange-800 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Total Users</CardTitle>
+            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
             <Users className="h-4 w-4 text-orange-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-orange-600">1,247</div>
-            <p className="text-xs text-gray-500">+12 new this week</p>
+            <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">1,247</div>
+            <p className="text-xs text-muted-foreground">+12 new this week</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-blue-200 dark:border-blue-800 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">System Health</CardTitle>
+            <CardTitle className="text-sm font-medium">System Health</CardTitle>
             <CheckCircle className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-600">98.5%</div>
-            <p className="text-xs text-gray-500">All systems operational</p>
+            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">98.5%</div>
+            <p className="text-xs text-muted-foreground">All systems operational</p>
           </CardContent>
         </Card>
-        <Card className="border-orange-200">
+        <Card className="border-orange-200 dark:border-orange-800 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Active Sessions</CardTitle>
             <Clock className="h-4 w-4 text-orange-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-orange-600">342</div>
+            <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">342</div>
             <p className="text-xs text-muted-foreground">Current active users</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-blue-200 dark:border-blue-800 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Security Alerts</CardTitle>
             <Shield className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-600">2</div>
+            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">2</div>
             <p className="text-xs text-muted-foreground">Require attention</p>
           </CardContent>
         </Card>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+        <Card className="border-orange-200 dark:border-orange-800 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-orange-600">
+            <CardTitle className="flex items-center gap-2 text-orange-700 dark:text-orange-300">
               <Users className="h-5 w-5" />
               User Management
             </CardTitle>
-            <CardDescription className="text-gray-500">Manage system users and permissions</CardDescription>
+            <CardDescription>Manage system users and permissions</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <div className="flex justify-between text-sm text-gray-600">
+              <div className="flex justify-between text-sm">
                 <span>Active Users</span>
                 <span>1,247</span>
               </div>
-              <Progress value={85} className="bg-orange-100" />
+              <Progress value={85} className="h-2" />
             </div>
             <Button className="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white">
               Manage Users
             </Button>
           </CardContent>
         </Card>
-        <Card className="border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
+        <Card className="border-blue-200 dark:border-blue-800 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-blue-700">
+            <CardTitle className="flex items-center gap-2 text-blue-700 dark:text-blue-300">
               <Settings className="h-5 w-5" />
               System Configuration
             </CardTitle>
@@ -100,16 +101,16 @@ export function Dashboard() {
                 <span>Configuration Status</span>
                 <span>Optimal</span>
               </div>
-              <Progress value={95} className="bg-blue-100" />
+              <Progress value={95} className="h-2" />
             </div>
             <Button className="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white">
               Configure System
             </Button>
           </CardContent>
         </Card>
-        <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+        <Card className="border-orange-200 dark:border-orange-800 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-orange-700">
+            <CardTitle className="flex items-center gap-2 text-orange-700 dark:text-orange-300">
               <BarChart3 className="h-5 w-5" />
               System Reports
             </CardTitle>
@@ -121,7 +122,7 @@ export function Dashboard() {
                 <span>Reports Generated</span>
                 <span>156</span>
               </div>
-              <Progress value={78} className="bg-orange-100" />
+              <Progress value={78} className="h-2" />
             </div>
             <Button className="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white">
               Generate Reports
@@ -135,59 +136,54 @@ export function Dashboard() {
   // --- Academic Staff Dashboard ---
   const renderAcademicStaffDashboard = () => (
     <div className="space-y-6">
-      <div className="bg-gradient-to-r from-orange-50 to-blue-50 p-6 rounded-lg border border-orange-200">
-        <h1 className="text-orange-700">Academic Staff Dashboard</h1>
-        <p className="text-muted-foreground">
-          Manage your courses, students, and academic activities
-        </p>
-      </div>
+      {/* Removed inner header to avoid duplicate headers with Layout */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-orange-200">
+        <Card className="border-orange-200 dark:border-orange-800 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">My Courses</CardTitle>
             <BookOpen className="h-4 w-4 text-orange-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-orange-600">8</div>
+            <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">8</div>
             <p className="text-xs text-muted-foreground">Active this semester</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-blue-200 dark:border-blue-800 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Students</CardTitle>
             <Users className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-600">234</div>
+            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">234</div>
             <p className="text-xs text-muted-foreground">Across all courses</p>
           </CardContent>
         </Card>
-        <Card className="border-orange-200">
+        <Card className="border-orange-200 dark:border-orange-800 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Pending Grades</CardTitle>
             <Award className="h-4 w-4 text-orange-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-orange-600">15</div>
+            <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">15</div>
             <p className="text-xs text-muted-foreground">Assignments to grade</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-blue-200 dark:border-blue-800 bg-white dark:bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Upcoming Exams</CardTitle>
             <Calendar className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-600">3</div>
+            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">3</div>
             <p className="text-xs text-muted-foreground">Next 2 weeks</p>
           </CardContent>
         </Card>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Link to="/academic/courses">
-          <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+        <Link to="/dashboard/student/courses">
+          <Card className="border-orange-200 dark:border-orange-800 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-orange-700">
+              <CardTitle className="flex items-center gap-2 text-orange-700 dark:text-orange-300">
                 <BookOpen className="h-5 w-5" />
                 Course Management
               </CardTitle>
@@ -195,10 +191,10 @@ export function Dashboard() {
             </CardHeader>
           </Card>
         </Link>
-        <Link to="/academic/performance">
-          <Card className="border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
+        <Link to="/dashboard/student/grades">
+          <Card className="border-blue-200 dark:border-blue-800 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-blue-700">
+              <CardTitle className="flex items-center gap-2 text-blue-700 dark:text-blue-300">
                 <BarChart3 className="h-5 w-5" />
                 Student Performance
               </CardTitle>
@@ -206,10 +202,10 @@ export function Dashboard() {
             </CardHeader>
           </Card>
         </Link>
-        <Link to="/academic/grades">
-          <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+        <Link to="/dashboard/student/grades">
+          <Card className="border-orange-200 dark:border-orange-800 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-orange-700">
+              <CardTitle className="flex items-center gap-2 text-orange-700 dark:text-orange-300">
                 <Award className="h-5 w-5" />
                 Grade Management
               </CardTitle>
@@ -222,181 +218,174 @@ export function Dashboard() {
   );
 
   // --- Student Dashboard ---
-  const renderStudentDashboard = () => (
-    <div className="space-y-6">
-      <div className="bg-gradient-to-r from-orange-50 to-blue-50 p-6 rounded-lg border border-orange-200">
-        <h1 className="text-orange-700">Student Portal</h1>
-        <p className="text-muted-foreground">
-          Access your academic information and services
-        </p>
-      </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-orange-200">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Live Classes</CardTitle>
-            <Video className="h-4 w-4 text-orange-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-orange-600">2</div>
-            <p className="text-xs text-muted-foreground">Sessions today</p>
-          </CardContent>
-        </Card>
-        
-        <Card className="border-orange-200">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Current GPA</CardTitle>
-            <Award className="h-4 w-4 text-orange-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-orange-600">3.85</div>
-            <p className="text-xs text-muted-foreground">Out of 4.0</p>
-          </CardContent>
-        </Card>
-        <Card className="border-blue-200">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Enrolled Courses</CardTitle>
-            <BookOpen className="h-4 w-4 text-blue-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-blue-600">6</div>
-            <p className="text-xs text-muted-foreground">This semester</p>
-          </CardContent>
-        </Card>
-        <Card className="border-orange-200">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Attendance</CardTitle>
-            <CheckCircle className="h-4 w-4 text-orange-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-orange-600">94%</div>
-            <p className="text-xs text-muted-foreground">Overall rate</p>
-          </CardContent>
-        </Card>
-        <Card className="border-blue-200">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Fees</CardTitle>
-            <DollarSign className="h-4 w-4 text-blue-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-blue-600">$0</div>
-            <p className="text-xs text-muted-foreground">All paid up</p>
-          </CardContent>
-        </Card>
-      </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Link to="/academic/courses">
-          <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-orange-700">
-                <BookOpen className="h-5 w-5" />
+  const StudentDashboard = () => {
+    const { tab = 'overview' } = useParams();
+    const navigate = useNavigate();
+    
+    const handleTabChange = (value) => {
+      navigate(`/dashboard/student/${value}`);
+    };
+    
+    const currentPath = tab;
+
+    return (
+      <div className="space-y-6">
+        <Tabs 
+          value={currentPath} 
+          onValueChange={handleTabChange}
+        >
+            <TabsList className="grid w-full grid-cols-5">
+              <TabsTrigger value="overview" className="flex items-center gap-2">
+                <Home className="h-4 w-4" />
+                Overview
+              </TabsTrigger>
+              <TabsTrigger value="live-classroom" className="flex items-center gap-2">
+                <GraduationCap className="h-4 w-4" />
+                Live Classroom
+              </TabsTrigger>
+              <TabsTrigger value="courses" className="flex items-center gap-2">
+                <Book className="h-4 w-4" />
                 My Courses
-              </CardTitle>
-              <CardDescription>Access course materials and content</CardDescription>
-            </CardHeader>
-          </Card>
-        </Link>
-        <Link to="/academic/assignments">
-          <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-orange-700">
-                <FileText className="h-5 w-5" />
+              </TabsTrigger>
+              <TabsTrigger value="assignments" className="flex items-center gap-2">
+                <FileText className="h-4 w-4" />
                 Assignments
-              </CardTitle>
-              <CardDescription>Submit and track assignments</CardDescription>
-            </CardHeader>
-          </Card>
-        </Link>
-        <Link to="/academic/grades">
-          <Card className="border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-blue-700">
-                <Award className="h-5 w-5" />
-                My Grades
-              </CardTitle>
-              <CardDescription>View your academic performance</CardDescription>
-            </CardHeader>
-          </Card>
-        </Link>
-        <Link to="/academic/examinations">
-          <Card className="border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-blue-700">
-                <Calendar className="h-5 w-5" />
-                Examinations
-              </CardTitle>
-              <CardDescription>Exam schedules and results</CardDescription>
-            </CardHeader>
-          </Card>
-        </Link>
-        <Link to="/marketing-finance/tuition">
-          <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-orange-700">
-                <DollarSign className="h-5 w-5" />
-                Fee Payments
-              </CardTitle>
-              <CardDescription>Manage your tuition and fees</CardDescription>
-            </CardHeader>
-          </Card>
-        </Link>
+              </TabsTrigger>
+              <TabsTrigger value="grades" className="flex items-center gap-2">
+                <FileCheck className="h-4 w-4" />
+                Grades
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="overview" className="mt-6">
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <Card className="border-orange-200 dark:border-orange-800 bg-white dark:bg-white">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Live Classes</CardTitle>
+                    <Video className="h-4 w-4 text-blue-500" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">2</div>
+                    <p className="text-xs text-muted-foreground">Sessions today</p>
+                    <Button variant="link" size="sm" className="p-0 h-auto text-blue-600" asChild>
+                      <Link to="/dashboard/student/live-classroom">Join now</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+                
+                <Card className="border-orange-200 dark:border-orange-800 bg-white dark:bg-white">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Current GPA</CardTitle>
+                    <Award className="h-4 w-4 text-blue-500" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">3.85</div>
+                    <p className="text-xs text-muted-foreground">Out of 4.0</p>
+                    <Button variant="link" size="sm" className="p-0 h-auto text-blue-600" asChild>
+                      <Link to="/dashboard/student/grades">View details</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-blue-200 dark:border-blue-800 bg-white dark:bg-white">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Pending Assignments</CardTitle>
+                    <FileText className="h-4 w-4 text-blue-500" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">3</div>
+                    <p className="text-xs text-muted-foreground">Due this week</p>
+                    <Button variant="link" size="sm" className="p-0 h-auto text-blue-600" asChild>
+                      <Link to="/dashboard/student/assignments">View all</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-blue-200 dark:border-blue-800 bg-white dark:bg-white">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Upcoming Exams</CardTitle>
+                    <ClipboardList className="h-4 w-4 text-blue-500" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">2</div>
+                    <p className="text-xs text-muted-foreground">Next 2 weeks</p>
+                    <Button variant="link" size="sm" className="p-0 h-auto text-blue-600" asChild>
+                      <Link to="/dashboard/student/examinations">View schedule</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="live-classroom" className="mt-6">
+              <LiveClassroom embedded />
+            </TabsContent>
+
+            <TabsContent value="courses" className="mt-6">
+              <Courses embedded />
+            </TabsContent>
+
+            <TabsContent value="assignments" className="mt-6">
+              <Assignments embedded />
+            </TabsContent>
+
+            <TabsContent value="grades" className="mt-6">
+              <Grades embedded />
+            </TabsContent>
+          </Tabs>
       </div>
-    </div>
-  );
+    );
+  };
 
   // --- HR Dashboard ---
   const renderHRDashboard = () => (
     <div className="space-y-6">
-      <div className="bg-gradient-to-r from-orange-50 to-blue-50 p-6 rounded-lg border border-orange-200">
-        <h1 className="text-orange-700">HR Management Dashboard</h1>
-        <p className="text-muted-foreground">
-          Comprehensive human resource management and operations
-        </p>
-      </div>
+      {/* Removed inner header to avoid duplicate headers with Layout */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-orange-200">
+        <Card className="border-gray-100 bg-white dark:bg-white ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Employees</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">Total Employees</CardTitle>
             <Users className="h-4 w-4 text-orange-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-orange-600">156</div>
-            <p className="text-xs text-muted-foreground">+5 new hires</p>
+            <p className="text-xs text-gray-400">+5 new hires</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-gray-100 bg-white dark:bg-white ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Leave</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">Pending Leave</CardTitle>
             <Calendar className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-blue-600">12</div>
-            <p className="text-xs text-muted-foreground">Requests to review</p>
+            <p className="text-xs text-gray-400">Requests to review</p>
           </CardContent>
         </Card>
-        <Card className="border-orange-200">
+        <Card className="border-gray-100 bg-white dark:bg-white ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Payroll Ready</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">Payroll Ready</CardTitle>
             <DollarSign className="h-4 w-4 text-orange-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-orange-600">98%</div>
-            <p className="text-xs text-muted-foreground">This month</p>
+            <p className="text-xs text-gray-400">This month</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-gray-100 bg-white dark:bg-white ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Performance Reviews</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">Performance Reviews</CardTitle>
             <BarChart3 className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-blue-600">8</div>
-            <p className="text-xs text-muted-foreground">Due this week</p>
+            <p className="text-xs text-gray-400">Due this week</p>
           </CardContent>
         </Card>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Link to="/admin-hr/employees">
-          <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="border-gray-100 bg-white dark:bg-white hover: transition-shadow cursor-pointer ">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-orange-700">
                 <Users className="h-5 w-5" />
@@ -407,7 +396,7 @@ export function Dashboard() {
           </Card>
         </Link>
         <Link to="/admin-hr/payroll">
-          <Card className="border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="border-gray-100 bg-white dark:bg-white hover: transition-shadow cursor-pointer ">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-blue-700">
                 <DollarSign className="h-5 w-5" />
@@ -418,7 +407,7 @@ export function Dashboard() {
           </Card>
         </Link>
         <Link to="/admin-hr/leave">
-          <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="border-gray-100 bg-white dark:bg-white hover: transition-shadow cursor-pointer ">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-orange-700">
                 <Calendar className="h-5 w-5" />
@@ -435,57 +424,52 @@ export function Dashboard() {
   // --- Finance Dashboard ---
   const renderFinanceDashboard = () => (
     <div className="space-y-6">
-      <div className="bg-gradient-to-r from-orange-50 to-blue-50 p-6 rounded-lg border border-orange-200">
-        <h1 className="text-orange-700">Finance Management Dashboard</h1>
-        <p className="text-muted-foreground">
-          Financial operations, reporting, and budget management
-        </p>
-      </div>
+      {/* Removed inner header to avoid duplicate headers with Layout */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-orange-200">
+        <Card className="border-gray-100 bg-white dark:bg-white ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Monthly Revenue</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">Monthly Revenue</CardTitle>
             <DollarSign className="h-4 w-4 text-orange-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-orange-600">$125K</div>
-            <p className="text-xs text-muted-foreground">+8.2% from last month</p>
+            <p className="text-xs text-gray-400">+8.2% from last month</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-gray-100 bg-white dark:bg-white ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Invoices</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">Pending Invoices</CardTitle>
             <FileText className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-blue-600">23</div>
-            <p className="text-xs text-muted-foreground">Awaiting payment</p>
+            <p className="text-xs text-gray-400">Awaiting payment</p>
           </CardContent>
         </Card>
-        <Card className="border-orange-200">
+        <Card className="border-gray-100 bg-white dark:bg-white ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Budget Utilization</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">Budget Utilization</CardTitle>
             <BarChart3 className="h-4 w-4 text-orange-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-orange-600">73%</div>
-            <p className="text-xs text-muted-foreground">Current fiscal year</p>
+            <p className="text-xs text-gray-400">Current fiscal year</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-gray-100 bg-white dark:bg-white ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Profit Margin</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">Profit Margin</CardTitle>
             <TrendingUp className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-blue-600">28.8%</div>
-            <p className="text-xs text-muted-foreground">Above target</p>
+            <p className="text-xs text-gray-400">Above target</p>
           </CardContent>
         </Card>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Link to="/marketing-finance/tuition">
-          <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="border-gray-100 bg-white dark:bg-white hover: transition-shadow cursor-pointer ">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-orange-700">
                 <FileText className="h-5 w-5" />
@@ -496,7 +480,7 @@ export function Dashboard() {
           </Card>
         </Link>
         <Link to="/marketing-finance/expenses">
-          <Card className="border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="border-gray-100 bg-white dark:bg-white hover: transition-shadow cursor-pointer ">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-blue-700">
                 <BarChart3 className="h-5 w-5" />
@@ -507,7 +491,7 @@ export function Dashboard() {
           </Card>
         </Link>
         <Link to="/marketing-finance/reports">
-          <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="border-gray-100 bg-white dark:bg-white hover: transition-shadow cursor-pointer ">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-orange-700">
                 <ChartLine className="h-5 w-5" />
@@ -524,99 +508,96 @@ export function Dashboard() {
   // --- Marketing Dashboard ---
   const renderMarketingDashboard = () => (
     <div className="space-y-6">
-      <div className="bg-gradient-to-r from-orange-50 to-blue-50 p-6 rounded-lg border border-orange-200">
-        <h1 className="text-orange-700">Marketing Team Dashboard</h1>
-        <p className="text-muted-foreground">
-          Campaign management, lead tracking, and performance analytics
-        </p>
-      </div>
+      {/* Removed inner header to avoid duplicate headers with Layout */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-orange-200">
+        <Card className="border-gray-100 bg-white dark:bg-white ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Campaigns</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">Active Campaigns</CardTitle>
             <Target className="h-4 w-4 text-orange-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-orange-600">12</div>
-            <p className="text-xs text-muted-foreground">Currently running</p>
+            <p className="text-xs text-gray-400">Currently running</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-gray-100 bg-white dark:bg-white ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Leads</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">Total Leads</CardTitle>
             <Users className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-blue-600">347</div>
-            <p className="text-xs text-muted-foreground">This month</p>
+            <p className="text-xs text-gray-400">This month</p>
           </CardContent>
         </Card>
-        <Card className="border-orange-200">
+        <Card className="border-gray-100 bg-white dark:bg-white ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Conversion Rate</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">Conversion Rate</CardTitle>
             <TrendingUp className="h-4 w-4 text-orange-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-orange-600">12.5%</div>
-            <p className="text-xs text-muted-foreground">+2.1% improvement</p>
+            <p className="text-xs text-gray-400">+2.1% improvement</p>
           </CardContent>
         </Card>
-        <Card className="border-blue-200">
+        <Card className="border-gray-100 bg-white dark:bg-white ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">ROI</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-400">ROI</CardTitle>
             <BarChart3 className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-blue-600">3.2x</div>
-            <p className="text-xs text-muted-foreground">Return on investment</p>
+            <p className="text-xs text-gray-400">Return on investment</p>
           </CardContent>
         </Card>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Link to="/marketing-finance/campaigns">
-          <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="border-gray-100 bg-white dark:bg-white hover: transition-shadow cursor-pointer ">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-orange-700">
                 <Target className="h-5 w-5" />
                 Campaign Management
               </CardTitle>
-              <CardDescription>Create and manage marketing campaigns</CardDescription>
+              <CardDescription className="text-gray-400">Create and manage marketing campaigns</CardDescription>
             </CardHeader>
           </Card>
         </Link>
         <Link to="/marketing-finance/analytics">
-          <Card className="border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="border-gray-100 bg-white dark:bg-white hover: transition-shadow cursor-pointer ">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-blue-700">
                 <BarChart3 className="h-5 w-5" />
                 Analytics Dashboard
               </CardTitle>
-              <CardDescription>View campaign performance and ROI</CardDescription>
+              <CardDescription className="text-gray-400">View campaign performance and ROI</CardDescription>
             </CardHeader>
           </Card>
         </Link>
-        <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
+        <Card className="border-gray-100 bg-white dark:bg-white hover: transition-shadow cursor-pointer ">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-orange-700">
               <Calendar className="h-5 w-5" />
               Event Management
             </CardTitle>
-            <CardDescription>Plan and manage marketing events</CardDescription>
+            <CardDescription className="text-gray-400">Plan and manage marketing events</CardDescription>
           </CardHeader>
         </Card>
       </div>
     </div>
   );
 
-  // --- Role Switcher ---
-  const renderDashboardByRole = () => {
-    switch (user?.role) {
+  // Render the appropriate dashboard based on user role
+  const DashboardContent = () => {
+    if (!user) return null;
+
+    switch (user.role) {
       case 'system_admin':
         return renderSystemAdminDashboard();
       case 'academic_staff':
         return renderAcademicStaffDashboard();
       case 'student':
-        return renderStudentDashboard();
+        return <StudentDashboard />;
       case 'hr_personnel':
         return renderHRDashboard();
       case 'finance_staff':
@@ -624,13 +605,13 @@ export function Dashboard() {
       case 'marketing_team':
         return renderMarketingDashboard();
       default:
-        return <div className="p-8 text-center text-lg">No dashboard available for this role.</div>;
+        return <StudentDashboard />;
     }
   };
 
   return (
     <Layout>
-      {renderDashboardByRole()}
+      <DashboardContent />
     </Layout>
   );
 }

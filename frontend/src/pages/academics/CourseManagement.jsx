@@ -66,7 +66,7 @@ export function CourseManagement() {
 
         {/* Statistics Cards */}
         <div className="grid gap-4 md:grid-cols-4">
-          <Card className="border-orange-200">
+          <Card className="border-orange-200 bg-white dark:bg-white">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium">Total Courses</CardTitle>
             </CardHeader>
@@ -78,7 +78,7 @@ export function CourseManagement() {
             </CardContent>
           </Card>
           
-          <Card className="border-blue-200">
+          <Card className="border-blue-200 bg-white dark:bg-white">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium">Active Courses</CardTitle>
             </CardHeader>
@@ -90,7 +90,7 @@ export function CourseManagement() {
             </CardContent>
           </Card>
           
-          <Card className="border-orange-200">
+          <Card className="border-orange-200 bg-white dark:bg-white">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium">Upcoming Courses</CardTitle>
             </CardHeader>
@@ -102,7 +102,7 @@ export function CourseManagement() {
             </CardContent>
           </Card>
           
-          <Card className="border-blue-200">
+          <Card className="border-blue-200 bg-white dark:bg-white">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium">Archived Courses</CardTitle>
             </CardHeader>
@@ -140,7 +140,7 @@ export function CourseManagement() {
         </div>
 
         {/* Course List */}
-        <Card className="border-blue-200">
+        <Card className="border-blue-200 bg-white dark:bg-white">
           <CardHeader>
             <CardTitle>Course List</CardTitle>
             <CardDescription>View and manage all courses</CardDescription>
@@ -188,7 +188,7 @@ export function CourseManagement() {
         </Card>
 
         {/* Recent Activities */}
-        <Card className="border-orange-200">
+        <Card className="border-orange-200 bg-white dark:bg-white">
           <CardHeader>
             <CardTitle>Recent Activities</CardTitle>
             <CardDescription>Latest updates and changes</CardDescription>

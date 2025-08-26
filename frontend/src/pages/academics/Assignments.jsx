@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import { Badge } from '../../components/ui/badge';
 import { getStudentAssignments } from '../../services/studentService';
 
-export default function Assignments() {
+export default function Assignments({ embedded = false }) {
   const { user } = useAuth();
   const [assignments, setAssignments] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
@@ -25,12 +25,14 @@ export default function Assignments() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-orange-700">Assignments</h1>
-        <p className="text-muted-foreground">Submit and track your assignments</p>
-      </div>
+      {!embedded && (
+        <div>
+          <h1 className="text-orange-700">Assignments</h1>
+          <p className="text-muted-foreground">Submit and track your assignments</p>
+        </div>
+      )}
 
-      <Card className="border-blue-200">
+      <Card className="border-blue-200 bg-white dark:bg-white">
         <CardHeader>
           <CardTitle className="text-blue-700">My Assignments</CardTitle>
           <CardDescription>Coursework and due dates</CardDescription>

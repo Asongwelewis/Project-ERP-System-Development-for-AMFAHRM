@@ -29,7 +29,7 @@ export default function Examinations() {
         <p className="text-muted-foreground">Your upcoming exams and assessments</p>
       </div>
 
-      <Card className="border-orange-200">
+      <Card className="border-orange-200 bg-white dark:bg-white">
         <CardHeader>
           <CardTitle className="text-orange-700">Schedule</CardTitle>
           <CardDescription>Dates, times, and venues</CardDescription>

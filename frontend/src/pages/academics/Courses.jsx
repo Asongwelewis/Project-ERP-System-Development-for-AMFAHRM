@@ -7,10 +7,10 @@ import { Search, Book, Calendar, Bell, FileText } from 'lucide-react';
 import { Input } from '../../components/ui/input';
 import { Progress } from '../../components/ui/progress';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../components/ui/dialog';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../components/ui/tabs';
 import { STUDENT_COURSES } from './constants';
 
-export function Courses() {
+export function Courses({ embedded = false }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
@@ -36,14 +36,15 @@ export function Courses() {
     });
   };
 
-  return (
-    <Layout>
+  const content = (
       <div className="space-y-6">
         {/* Page Header */}
-        <div>
-          <h1 className="text-2xl font-bold text-orange-700">My Courses</h1>
-          <p className="text-muted-foreground">View your enrolled courses and progress</p>
-        </div>
+        {!embedded && (
+          <div>
+            <h1 className="text-2xl font-bold text-orange-700">My Courses</h1>
+            <p className="text-muted-foreground">View your enrolled courses and progress</p>
+          </div>
+        )}
 
         {/* Search */}
         <div className="relative">
@@ -57,7 +58,7 @@ export function Courses() {
         </div>
 
         {/* Upcoming Assignments Overview */}
-        <Card className="border-orange-200">
+        <Card className="border-orange-200 bg-white dark:bg-white">
           <CardHeader>
             <CardTitle className="text-lg">Upcoming Assignments</CardTitle>
           </CardHeader>
@@ -85,7 +86,7 @@ export function Courses() {
         {/* Course Grid */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filteredCourses.map((course) => (
-            <Card key={course.id} className="border-orange-200 hover:shadow-md transition-shadow">
+            <Card key={course.id} className="border-orange-200 bg-white dark:bg-white hover:shadow-md transition-shadow">
               <CardHeader>
                 <div className="flex justify-between items-start">
                   <div>
@@ -168,7 +169,7 @@ export function Courses() {
 
                 <TabsContent value="materials" className="space-y-4">
                   {selectedCourse.materials.map((material) => (
-                    <Card key={material.id}>
+                    <Card key={material.id} className="bg-white dark:bg-white">
                       <CardContent className="flex items-center justify-between p-4">
                         <div>
                           <p className="font-medium">{material.name}</p>
@@ -184,7 +185,7 @@ export function Courses() {
 
                 <TabsContent value="assignments" className="space-y-4">
                   {selectedCourse.assignments.map((assignment) => (
-                    <Card key={assignment.id}>
+                    <Card key={assignment.id} className="bg-white dark:bg-white">
                       <CardContent className="flex items-center justify-between p-4">
                         <div>
                           <p className="font-medium">{assignment.title}</p>
@@ -204,7 +205,7 @@ export function Courses() {
                 </TabsContent>
 
                 <TabsContent value="schedule">
-                  <Card>
+                  <Card className="bg-white dark:bg-white">
                     <CardContent className="p-4">
                       <div className="space-y-4">
                         <div>
@@ -221,7 +222,7 @@ export function Courses() {
 
                 <TabsContent value="announcements" className="space-y-4">
                   {selectedCourse.announcements.map((announcement) => (
-                    <Card key={announcement.id}>
+                    <Card key={announcement.id} className="bg-white dark:bg-white">
                       <CardContent className="p-4">
                         <p className="font-medium">{announcement.title}</p>
                         <p className="text-sm text-muted-foreground mt-1">
@@ -237,6 +238,11 @@ export function Courses() {
           </DialogContent>
         </Dialog>
       </div>
+  );
+
+  return embedded ? content : (
+    <Layout>
+      {content}
     </Layout>
   );
 }

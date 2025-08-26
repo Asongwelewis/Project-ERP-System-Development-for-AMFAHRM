@@ -230,27 +230,25 @@ export function LoginPage() {
             
 						<div className="space-y-2">
 							<Label htmlFor="role">Role</Label>
-											<Select value={role} onValueChange={setRole}>
-												<SelectTrigger className="border-orange-200 focus:border-orange-400 bg-white">
-													<SelectValue placeholder="Select your role" />
-												</SelectTrigger>
-												<SelectContent className="bg-white border-orange-200">
-													<div className="bg-white rounded-md p-1">
-														{userRoles.map((roleOption) => (
-															<SelectItem 
-																key={roleOption.value} 
-																value={roleOption.value} 
-																className="relative flex cursor-pointer select-none items-center rounded-sm py-1.5 px-2 text-sm outline-none hover:bg-orange-50 hover:text-orange-600 data-[active]:bg-orange-50 data-[active]:text-orange-600"
-															>
-																<div className="flex items-center gap-2">
-																	<roleOption.icon className="h-4 w-4" />
-																	{roleOption.label}
-																</div>
-															</SelectItem>
-														))}
-													</div>
-												</SelectContent>
-											</Select>
+											                <Select value={role} onValueChange={setRole}>
+                  <SelectTrigger className="border-orange-200 focus:border-orange-400 bg-white dark:bg-white dark:text-gray-900">
+                    <SelectValue placeholder="Select your role">{selectedRole?.label}</SelectValue>
+                  </SelectTrigger>
+                  <SelectContent className="bg-white dark:bg-white border-orange-200">
+                    {userRoles.map((roleOption) => (
+                      <SelectItem 
+                        key={roleOption.value} 
+                        value={roleOption.value} 
+                        className="relative flex cursor-pointer select-none items-center rounded-sm py-1.5 px-2 text-sm outline-none hover:bg-orange-50 hover:text-orange-600 data-[active]:bg-orange-50 data-[active]:text-orange-600"
+                      >
+                        <div className="flex items-center gap-2">
+                          <roleOption.icon className="h-4 w-4" />
+                          {roleOption.label}
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
 						</div>
             
 						<Button 

@@ -29,7 +29,7 @@ export default function Schedule() {
         <p className="text-muted-foreground">Your weekly timetable</p>
       </div>
 
-      <Card className="border-blue-200">
+      <Card className="border-blue-200 bg-white dark:bg-white">
         <CardHeader>
           <CardTitle className="text-blue-700">Classes</CardTitle>
           <CardDescription>Day, time, and venues</CardDescription>
