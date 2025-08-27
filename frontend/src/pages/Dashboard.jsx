@@ -7,13 +7,18 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/ui/tabs'
 import { LiveClassroom } from './academics/LiveClassroom';
 import { Courses } from './academics/Courses';
 import Assignments from './academics/Assignments';
+import Timetable from './academics/Timetable';
 import Grades from './academics/Grades';
+import StudentPerformance from './academics/StudentPerformance';
 import { Layout } from '../components/Layout';
 import {
   BookOpen, Users, Calendar, Award, Clock, DollarSign, TrendingUp, Target,
   BarChart3, FileText, Settings, Shield, CheckCircle, ChartLine, Video, Home, Book, FileCheck, ClipboardList, GraduationCap
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+
+// Allowed student tabs (module scope)
+const ALLOWED_STUDENT_TABS = ['overview', 'live-classroom', 'courses', 'assignments', 'grades', 'timetable', 'performance'];
 
 export function Dashboard() {
   const { user } = useAuth();
@@ -129,6 +134,17 @@ export function Dashboard() {
             </Button>
           </CardContent>
         </Card>
+        <Link to="/academic/courses">
+          <Card className="border-blue-200 dark:border-blue-800 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-blue-700 dark:text-blue-300">
+                <BookOpen className="h-5 w-5" />
+                Course Management
+              </CardTitle>
+              <CardDescription>Manage courses and schedules</CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
       </div>
     </div>
   );
@@ -221,6 +237,14 @@ export function Dashboard() {
   const StudentDashboard = () => {
     const { tab = 'overview' } = useParams();
     const navigate = useNavigate();
+    // Allowed tabs moved to module scope constant ALLOWED_STUDENT_TABS
+
+    // Guard against invalid tabs by redirecting to overview
+    React.useEffect(() => {
+      if (!ALLOWED_STUDENT_TABS.includes(tab)) {
+        navigate('/dashboard/student/overview', { replace: true });
+      }
+    }, [tab, navigate]);
     
     const handleTabChange = (value) => {
       navigate(`/dashboard/student/${value}`);
@@ -231,10 +255,11 @@ export function Dashboard() {
     return (
       <div className="space-y-6">
         <Tabs 
+          key={currentPath}
           value={currentPath} 
           onValueChange={handleTabChange}
         >
-            <TabsList className="grid w-full grid-cols-5">
+            <TabsList className="grid w-full grid-cols-7">
               <TabsTrigger value="overview" className="flex items-center gap-2">
                 <Home className="h-4 w-4" />
                 Overview
@@ -253,7 +278,15 @@ export function Dashboard() {
               </TabsTrigger>
               <TabsTrigger value="grades" className="flex items-center gap-2">
                 <FileCheck className="h-4 w-4" />
-                Grades
+                Transcript
+              </TabsTrigger>
+              <TabsTrigger value="timetable" className="flex items-center gap-2">
+                <Calendar className="h-4 w-4" />
+                Timetable
+              </TabsTrigger>
+              <TabsTrigger value="performance" className="flex items-center gap-2">
+                <BarChart3 className="h-4 w-4" />
+                Performance
               </TabsTrigger>
             </TabsList>
 
@@ -282,7 +315,7 @@ export function Dashboard() {
                     <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">3.85</div>
                     <p className="text-xs text-muted-foreground">Out of 4.0</p>
                     <Button variant="link" size="sm" className="p-0 h-auto text-blue-600" asChild>
-                      <Link to="/dashboard/student/grades">View details</Link>
+                      <Link to="/dashboard/student/grades">View transcript</Link>
                     </Button>
                   </CardContent>
                 </Card>
@@ -314,6 +347,20 @@ export function Dashboard() {
                     </Button>
                   </CardContent>
                 </Card>
+
+                <Card className="border-blue-200 dark:border-blue-800 bg-white dark:bg-white">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Timetable</CardTitle>
+                    <Calendar className="h-4 w-4 text-blue-500" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">Today</div>
+                    <p className="text-xs text-muted-foreground">View your class times and halls</p>
+                    <Button variant="link" size="sm" className="p-0 h-auto text-blue-600" asChild>
+                      <Link to="/dashboard/student/timetable">View timetable</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
               </div>
             </TabsContent>
 
@@ -331,6 +378,12 @@ export function Dashboard() {
 
             <TabsContent value="grades" className="mt-6">
               <Grades embedded />
+            </TabsContent>
+            <TabsContent value="timetable" className="mt-6">
+              <Timetable embedded />
+            </TabsContent>
+            <TabsContent value="performance" className="mt-6">
+              <StudentPerformance embedded />
             </TabsContent>
           </Tabs>
       </div>

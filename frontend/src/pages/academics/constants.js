@@ -114,7 +114,8 @@ export const COURSE_LIST = [
   {
     id: 1,
     code: 'CS101',
-    name: 'Introduction to Computer Science',
+    title: 'Introduction to Computer Science',
+    credits: 6,
     department: 'Computer Science',
     instructor: 'Dr. Robert Smith',
     students: 45,
@@ -124,25 +125,63 @@ export const COURSE_LIST = [
   },
   {
     id: 2,
-    code: 'MATH201',
-    name: 'Advanced Calculus',
-    department: 'Mathematics',
+    code: 'CS201',
+    title: 'Data Structures and Algorithms',
+    credits: 6,
+    department: 'Computer Science',
     instructor: 'Dr. Sarah Johnson',
-    students: 32,
+    students: 52,
     status: 'active',
     startDate: '2025-09-01',
     endDate: '2025-12-15'
   },
   {
     id: 3,
-    code: 'PHY301',
-    name: 'Quantum Physics',
-    department: 'Physics',
+    code: 'CS301',
+    title: 'Operating Systems',
+    credits: 6,
+    department: 'Computer Science',
     instructor: 'Dr. Michael Chen',
-    students: 28,
+    students: 38,
     status: 'upcoming',
     startDate: '2026-01-15',
     endDate: '2026-05-30'
+  },
+  {
+    id: 4,
+    code: 'CS302',
+    title: 'Database Systems',
+    credits: 6,
+    department: 'Computer Science',
+    instructor: 'Prof. Anita Patel',
+    students: 41,
+    status: 'active',
+    startDate: '2025-09-01',
+    endDate: '2025-12-15'
+  },
+  {
+    id: 5,
+    code: 'CS303',
+    title: 'Computer Networks',
+    credits: 6,
+    department: 'Computer Science',
+    instructor: 'Dr. Emily Nguyen',
+    students: 36,
+    status: 'active',
+    startDate: '2025-09-01',
+    endDate: '2025-12-15'
+  },
+  {
+    id: 6,
+    code: 'SE401',
+    title: 'Software Engineering',
+    credits: 6,
+    department: 'Engineering',
+    instructor: 'Prof. David Lee',
+    students: 48,
+    status: 'active',
+    startDate: '2025-09-01',
+    endDate: '2025-12-15'
   }
 ];
 

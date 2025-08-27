@@ -29,7 +29,7 @@ export function MenuBar() {
         return [
           { label: 'Dashboard', path: '/dashboard' },
           { label: 'My Courses', path: '/dashboard/student/courses' },
-          { label: 'My Grades', path: '/dashboard/student/grades' },
+          { label: 'Transcript', path: '/dashboard/student/grades' },
           { label: 'Schedule', path: '/academic/schedule' },
           { label: 'Fee Payments', path: '/marketing-finance/tuition' }
         ];

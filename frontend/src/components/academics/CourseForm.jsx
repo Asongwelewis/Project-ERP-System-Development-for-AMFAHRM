@@ -1,35 +1,91 @@
 import React from 'react';
-import { Card, CardContent } from '../ui/card';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { DEPARTMENTS } from '../../pages/academics/constants';
 
-export function CourseForm({ onSubmit, isLoading = false }) {
+export function CourseForm({ onSubmit, isLoading = false, initialData = null, submitLabel }) {
   const [formData, setFormData] = React.useState({
     code: '',
-    name: '',
+    title: '',
     department: '',
     instructor: '',
     maxStudents: '',
     startDate: '',
     endDate: '',
-    description: ''
+    description: '',
+    credits: 6,
   });
+  const [errors, setErrors] = React.useState({});
+
+  React.useEffect(() => {
+    if (initialData) {
+      setFormData({
+        code: initialData.code || '',
+        title: initialData.title || initialData.name || '',
+        department: initialData.department || '',
+        instructor: initialData.instructor || '',
+        maxStudents: initialData.maxStudents || '',
+        startDate: initialData.startDate || '',
+        endDate: initialData.endDate || '',
+        description: initialData.description || '',
+        credits: initialData.credits || 6,
+      });
+    }
+  }, [initialData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const validationErrors = validate(formData);
+    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length > 0) return;
     onSubmit(formData);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear field error on change
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: undefined }));
   };
 
-  const handleSelectChange = (value, field) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+  const handleSelectChange = (value, name) => {
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: undefined }));
+  };
+
+  const validate = (data) => {
+    const errs = {};
+    // Code: 2-4 uppercase letters + 3 digits (e.g., CS201)
+    const codeRegex = /^[A-Z]{2,4}\d{3}$/;
+    if (!data.code || !codeRegex.test(data.code.trim())) {
+      errs.code = 'Use format like CS201 (2-4 uppercase letters followed by 3 digits).';
+    }
+    if (!data.title || !data.title.trim()) {
+      errs.title = 'Course title is required.';
+    }
+    if (!data.department) {
+      errs.department = 'Department is required.';
+    }
+    const max = Number(data.maxStudents);
+    if (!Number.isInteger(max) || max <= 0) {
+      errs.maxStudents = 'Enter a positive integer.';
+    }
+    if (!data.startDate) {
+      errs.startDate = 'Start date is required.';
+    }
+    if (!data.endDate) {
+      errs.endDate = 'End date is required.';
+    }
+    if (data.startDate && data.endDate) {
+      const start = new Date(data.startDate);
+      const end = new Date(data.endDate);
+      if (end < start) {
+        errs.endDate = 'End date must be on or after start date.';
+      }
+    }
+    return errs;
   };
 
   return (
@@ -45,18 +101,20 @@ export function CourseForm({ onSubmit, isLoading = false }) {
             onChange={handleChange}
             required
           />
+          {errors.code && (<p className="text-sm text-red-600">{errors.code}</p>)}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="name">Course Name</Label>
+          <Label htmlFor="title">Course Title</Label>
           <Input
-            id="name"
-            name="name"
-            placeholder="e.g., Introduction to Programming"
-            value={formData.name}
+            id="title"
+            name="title"
+            placeholder="e.g., Data Structures and Algorithms"
+            value={formData.title}
             onChange={handleChange}
             required
           />
+          {errors.title && (<p className="text-sm text-red-600">{errors.title}</p>)}
         </div>
 
         <div className="space-y-2">
@@ -70,12 +128,11 @@ export function CourseForm({ onSubmit, isLoading = false }) {
             </SelectTrigger>
             <SelectContent>
               {DEPARTMENTS.map((dept) => (
-                <SelectItem key={dept} value={dept}>
-                  {dept}
-                </SelectItem>
+                <SelectItem key={dept} value={dept}>{dept}</SelectItem>
               ))}
             </SelectContent>
           </Select>
+          {errors.department && (<p className="text-sm text-red-600">{errors.department}</p>)}
         </div>
 
         <div className="space-y-2">
@@ -101,6 +158,18 @@ export function CourseForm({ onSubmit, isLoading = false }) {
             onChange={handleChange}
             required
           />
+          {errors.maxStudents && (<p className="text-sm text-red-600">{errors.maxStudents}</p>)}
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="credits">Credits</Label>
+          <Input
+            id="credits"
+            name="credits"
+            type="number"
+            value={formData.credits}
+            readOnly
+          />
         </div>
 
         <div className="space-y-2">
@@ -113,6 +182,7 @@ export function CourseForm({ onSubmit, isLoading = false }) {
             onChange={handleChange}
             required
           />
+          {errors.startDate && (<p className="text-sm text-red-600">{errors.startDate}</p>)}
         </div>
 
         <div className="space-y-2">
@@ -125,6 +195,7 @@ export function CourseForm({ onSubmit, isLoading = false }) {
             onChange={handleChange}
             required
           />
+          {errors.endDate && (<p className="text-sm text-red-600">{errors.endDate}</p>)}
         </div>
       </div>
 
@@ -143,7 +214,9 @@ export function CourseForm({ onSubmit, isLoading = false }) {
 
       <div className="flex justify-end gap-2">
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? 'Creating...' : 'Create Course'}
+          {isLoading
+            ? (initialData ? 'Updating...' : 'Creating...')
+            : (submitLabel || (initialData ? 'Update Course' : 'Create Course'))}
         </Button>
       </div>
     </form>

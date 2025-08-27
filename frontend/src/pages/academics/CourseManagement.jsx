@@ -15,16 +15,61 @@ export function CourseManagement() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('all');
   const [isAddingCourse, setIsAddingCourse] = useState(false);
+  const [courses, setCourses] = useState(COURSE_LIST);
+  const [isEditingCourse, setIsEditingCourse] = useState(false);
+  const [editingCourse, setEditingCourse] = useState(null);
+  const [isViewingCourse, setIsViewingCourse] = useState(false);
+  const [viewingCourse, setViewingCourse] = useState(null);
 
   // Filter courses based on search and department
-  const filteredCourses = COURSE_LIST.filter(course => {
+  const filteredCourses = courses.filter(course => {
     const matchesSearch = 
-      course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (course.title || course.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
       course.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
       course.instructor.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesDepartment = selectedDepartment === 'all' || course.department === selectedDepartment;
     return matchesSearch && matchesDepartment;
   });
+
+  const handleCreateCourse = async (data) => {
+    try {
+      const newCourse = {
+        id: Date.now(),
+        status: 'upcoming',
+        students: 0,
+        ...data,
+      };
+      setCourses(prev => [newCourse, ...prev]);
+      setIsAddingCourse(false);
+    } catch (error) {
+      console.error('Error creating course:', error);
+    }
+  };
+
+  const handleStartEdit = (course) => {
+    setEditingCourse(course);
+    setIsEditingCourse(true);
+  };
+
+  const handleUpdateCourse = async (data) => {
+    try {
+      setCourses(prev => prev.map(c => c.id === editingCourse.id ? { ...c, ...data } : c));
+      setIsEditingCourse(false);
+      setEditingCourse(null);
+    } catch (error) {
+      console.error('Error updating course:', error);
+    }
+  };
+
+  const handleDeleteCourse = (courseId) => {
+    if (!window.confirm('Are you sure you want to delete this course?')) return;
+    setCourses(prev => prev.filter(c => c.id !== courseId));
+  };
+
+  const handleViewCourse = (course) => {
+    setViewingCourse(course);
+    setIsViewingCourse(true);
+  };
 
   return (
     <Layout>
@@ -49,17 +94,25 @@ export function CourseManagement() {
                 <DialogTitle>Create New Course</DialogTitle>
               </DialogHeader>
               <CourseForm 
-                onSubmit={async (data) => {
-                  try {
-                    // Here you would typically make an API call to create the course
-                    console.log('Creating course:', data);
-                    // For now, just close the dialog
-                    setIsAddingCourse(false);
-                  } catch (error) {
-                    console.error('Error creating course:', error);
-                  }
-                }}
+                onSubmit={handleCreateCourse}
+                submitLabel="Create Course"
               />
+            </DialogContent>
+          </Dialog>
+
+          {/* Edit Course Dialog */}
+          <Dialog open={isEditingCourse} onOpenChange={setIsEditingCourse}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Edit Course</DialogTitle>
+              </DialogHeader>
+              {editingCourse && (
+                <CourseForm 
+                  initialData={editingCourse}
+                  onSubmit={handleUpdateCourse}
+                  submitLabel="Update Course"
+                />
+              )}
             </DialogContent>
           </Dialog>
         </div>
@@ -150,7 +203,8 @@ export function CourseManagement() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Course Code</TableHead>
-                  <TableHead>Course Name</TableHead>
+                  <TableHead>Course Title</TableHead>
+                  <TableHead>Credit</TableHead>
                   <TableHead>Department</TableHead>
                   <TableHead>Instructor</TableHead>
                   <TableHead>Students</TableHead>
@@ -162,7 +216,8 @@ export function CourseManagement() {
                 {filteredCourses.map((course) => (
                   <TableRow key={course.id}>
                     <TableCell className="font-medium">{course.code}</TableCell>
-                    <TableCell>{course.name}</TableCell>
+                    <TableCell>{course.title || course.name}</TableCell>
+                    <TableCell>{course.credits ?? 6}</TableCell>
                     <TableCell>{course.department}</TableCell>
                     <TableCell>{course.instructor}</TableCell>
                     <TableCell>{course.students}</TableCell>
@@ -176,8 +231,9 @@ export function CourseManagement() {
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-2">
-                        <Button variant="outline" size="sm">View</Button>
-                        <Button variant="outline" size="sm">Edit</Button>
+                        <Button variant="outline" size="sm" onClick={() => handleViewCourse(course)}>View</Button>
+                        <Button variant="outline" size="sm" onClick={() => handleStartEdit(course)}>Edit</Button>
+                        <Button variant="destructive" size="sm" onClick={() => handleDeleteCourse(course.id)}>Delete</Button>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -211,6 +267,57 @@ export function CourseManagement() {
             </div>
           </CardContent>
         </Card>
+
+        {/* View Course Dialog */}
+        <Dialog open={isViewingCourse} onOpenChange={setIsViewingCourse}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Course Details</DialogTitle>
+            </DialogHeader>
+            {viewingCourse && (
+              <div className="space-y-3">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-muted-foreground">Course Code</p>
+                    <p className="font-medium">{viewingCourse.code}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Credits</p>
+                    <p className="font-medium">{viewingCourse.credits ?? 6}</p>
+                  </div>
+                  <div className="col-span-2">
+                    <p className="text-sm text-muted-foreground">Course Title</p>
+                    <p className="font-medium">{viewingCourse.title || viewingCourse.name}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Department</p>
+                    <p className="font-medium">{viewingCourse.department}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Instructor</p>
+                    <p className="font-medium">{viewingCourse.instructor}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Start Date</p>
+                    <p className="font-medium">{viewingCourse.startDate}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">End Date</p>
+                    <p className="font-medium">{viewingCourse.endDate}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Students</p>
+                    <p className="font-medium">{viewingCourse.students}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Status</p>
+                    <p className="font-medium capitalize">{viewingCourse.status}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </Layout>
   );

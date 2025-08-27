@@ -136,7 +136,7 @@ export function Dashboard() {
   const renderAcademicStaffDashboard = () => (
     <div className="space-y-6">
       <div className="bg-gradient-to-r from-orange-50 to-blue-50 p-6 rounded-lg border border-orange-200">
-        <h1 className="text-orange-700">Academic Staff Dashboard</h1>
+        <h1 className="text-orange-700">Lecturer Dashboard</h1>
         <p className="text-muted-foreground">
           Manage your courses, students, and academic activities
         </p>

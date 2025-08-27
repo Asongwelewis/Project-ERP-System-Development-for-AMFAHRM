@@ -89,7 +89,7 @@ export function LoginPage() {
 		},
 		{
 			value: 'academic_staff',
-			label: 'Academic Staff',
+			label: 'Lecturer',
 			description: 'Manage courses and student academics',
 			icon: GraduationCap,
 			permissions: ['Manage Courses', 'Track Attendance', 'Grade Students', 'Schedule Exams']

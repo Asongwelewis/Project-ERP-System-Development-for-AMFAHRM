@@ -26,14 +26,14 @@ export default function Grades({ embedded = false }) {
     <div className="space-y-6">
       {!embedded && (
         <div>
-          <h1 className="text-blue-700">My Grades</h1>
-          <p className="text-muted-foreground">View your course grades</p>
+          <h1 className="text-blue-700">My Transcript</h1>
+          <p className="text-muted-foreground">View your official course results</p>
         </div>
       )}
 
       <Card className="border-blue-200 bg-white dark:bg-white">
         <CardHeader>
-          <CardTitle className="text-blue-700">Grade Report</CardTitle>
+          <CardTitle className="text-blue-700">Transcript</CardTitle>
           <CardDescription>Course-by-course results</CardDescription>
         </CardHeader>
         <CardContent className="p-0">

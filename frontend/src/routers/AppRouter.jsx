@@ -1,30 +1,36 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { LoginPage } from '../pages/LoginPage';
-import { Dashboard } from '../pages/Dashboard';
-import { NotFound } from '../pages/NotFound';
+// Explicitly import the Tabs-enabled Dashboard implementation
+import { Dashboard } from '../pages/Dashboard.jsx';
 import { ProtectedRoute } from '../components/ProtectedRoute';
-
 // Academic Routes
 import { Courses } from '../pages/academics/Courses';
 import { CourseManagement } from '../pages/academics/CourseManagement';
 import { LiveClassroom } from '../pages/academics/LiveClassroom';
-import { Assignments } from '../pages/academics/Assignments';
-import { Examinations } from '../pages/academics/Examinations';
+import Assignments from '../pages/academics/Assignments';
+import Examinations from '../pages/academics/Examinations';
 import { GradeManagement } from '../pages/academics/GradeManagement';
-import { Schedule } from '../pages/academics/Schedule';
-
+import Schedule from '../pages/academics/Schedule';
 // Admin & HR Routes
 import { HRDashboard } from '../pages/admin/HRDashboard';
 import { Employee } from '../pages/admin/Employee';
 import { Attendance } from '../pages/admin/Attendance';
 import { Leave } from '../pages/admin/Leave';
 import { Payroll } from '../pages/admin/Payroll';
-
 // Finance & Marketing Routes
 import { Reports } from '../pages/finance/Reports';
 import { Campaigns } from '../pages/finance/Campaigns';
+import Delegate from '../pages/delegate/Delegate';
+
+// Fallback NotFound component (inline)
+const NotFound = () => (
+  <div className="min-h-[40vh] flex flex-col items-center justify-center text-center p-8">
+    <h1 className="text-2xl font-semibold text-blue-700 mb-2">Page not found</h1>
+    <p className="text-sm text-muted-foreground">The page you are looking for does not exist or you don't have access.</p>
+  </div>
+);
 
 export function AppRouter() {
   const { user } = useAuth();
@@ -35,7 +41,6 @@ export function AppRouter() {
   };
 
   return (
-    <Router>
       <Routes>
         {/* Public Routes */}
         <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <LoginPage />} />
@@ -51,12 +56,39 @@ export function AppRouter() {
           } 
         />
 
+        {/* Delegate - Student controlled attendance intake */}
+        <Route
+          path="/delegate"
+          element={
+            <ProtectedRoute>
+              {hasRole(['student', 'system_admin']) ? (
+                <Delegate />
+              ) : (
+                <NotFound />
+              )}
+            </ProtectedRoute>
+          }
+        />
+        {/* Student tab routes: render Dashboard for tabbed student pages */}
+        <Route 
+          path="/dashboard/student" 
+          element={<Navigate to="/dashboard/student/overview" />} 
+        />
+        <Route 
+          path="/dashboard/student/:tab" 
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } 
+        />
+
         {/* Academic Routes */}
         <Route
           path="/academic/courses"
           element={
             <ProtectedRoute>
-              {hasRole(['academic_staff', 'system_admin']) ? (
+              {hasRole(['academic_staff', 'system_admin', 'hr_personnel']) ? (
                 <CourseManagement />
               ) : hasRole(['student']) ? (
                 <Courses />
@@ -224,6 +256,5 @@ export function AppRouter() {
         {/* 404 Route */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </Router>
   );
 }

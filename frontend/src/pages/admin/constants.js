@@ -9,7 +9,7 @@ export const HR_STATS = {
 };
 
 // Departments List
-export const DEPARTMENTS = ['Academic Staff', 'Administrative', 'IT Support', 'Maintenance'];
+export const DEPARTMENTS = ['Lecturers', 'Administrative', 'IT Support', 'Maintenance'];
 
 // Mock Employees Data
 export const MOCK_EMPLOYEES = [
@@ -17,7 +17,7 @@ export const MOCK_EMPLOYEES = [
     id: 1, 
     name: 'Dr. Robert Smith', 
     email: 'r.smith@institution.edu', 
-    department: 'Academic Staff', 
+    department: 'Lecturers', 
     position: 'Professor', 
     joinDate: '2020-01-15',
     salary: 75000,
@@ -50,7 +50,7 @@ export const MOCK_EMPLOYEES = [
     id: 4,
     name: 'Sarah Davis',
     email: 's.davis@institution.edu',
-    department: 'Academic Staff',
+    department: 'Lecturers',
     position: 'Assistant Professor',
     joinDate: '2022-08-01',
     salary: 60000,
@@ -61,10 +61,10 @@ export const MOCK_EMPLOYEES = [
 
 // Attendance Data
 export const MOCK_ATTENDANCE = [
-  { id: 1, name: 'Dr. Robert Smith', department: 'Academic Staff', clockIn: '8:30 AM', clockOut: '5:15 PM', status: 'present', hours: 8.75 },
+  { id: 1, name: 'Dr. Robert Smith', department: 'Lecturers', clockIn: '8:30 AM', clockOut: '5:15 PM', status: 'present', hours: 8.75 },
   { id: 2, name: 'Jane Johnson', department: 'Administrative', clockIn: '9:00 AM', clockOut: '6:00 PM', status: 'present', hours: 9 },
   { id: 3, name: 'Michael Brown', department: 'IT Support', clockIn: '8:45 AM', clockOut: '5:30 PM', status: 'present', hours: 8.75 },
-  { id: 4, name: 'Sarah Davis', department: 'Academic Staff', clockIn: '-', clockOut: '-', status: 'sick_leave', hours: 0 },
+  { id: 4, name: 'Sarah Davis', department: 'Lecturers', clockIn: '-', clockOut: '-', status: 'sick_leave', hours: 0 },
   { id: 5, name: 'John Wilson', department: 'Maintenance', clockIn: '7:00 AM', clockOut: '3:00 PM', status: 'present', hours: 8 }
 ];
 

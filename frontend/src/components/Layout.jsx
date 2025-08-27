@@ -14,8 +14,11 @@ import {
   Sun,
   GraduationCap,
   Bell,
-  Home
+  Home,
+  MoreVertical
 } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from './ui/dialog';
+import { Input } from './ui/input';
 
 /**
  * Layout Component
@@ -29,6 +32,9 @@ export function Layout({ children }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = React.useState(false);
+  const [delegateDialogOpen, setDelegateDialogOpen] = React.useState(false);
+  const [delegatePassword, setDelegatePassword] = React.useState('');
+  const [delegateError, setDelegateError] = React.useState('');
 
   React.useEffect(() => {
     const isDark = document.documentElement.classList.contains('dark');
@@ -45,9 +51,15 @@ export function Layout({ children }) {
       { path: '/dashboard', icon: Home, label: 'Dashboard', allowedRoles: ['system_admin', 'academic_staff', 'student', 'hr_personnel', 'finance_staff', 'marketing_team'] }
     ];
 
+    const role = user?.role;
     const roleBasedItems = [
       // Academic Module - Available to Academic Staff and Students
-      { path: '/dashboard/student/courses', icon: BookOpen, label: 'Academic', allowedRoles: ['academic_staff', 'student', 'system_admin'] },
+      { 
+        path: role === 'student' ? '/dashboard/student/courses' : '/academic/courses', 
+        icon: BookOpen, 
+        label: 'Academic', 
+        allowedRoles: ['academic_staff', 'student', 'system_admin'] 
+      },
       
       // Marketing & Finance - Available to Finance Staff, Marketing Team, and System Admin
       { path: '/marketing-finance', icon: DollarSign, label: 'Finance & Marketing', allowedRoles: ['finance_staff', 'marketing_team', 'system_admin'] },
@@ -56,7 +68,12 @@ export function Layout({ children }) {
       { path: '/admin-hr', icon: Users, label: 'Admin & HR', allowedRoles: ['hr_personnel', 'system_admin'] },
       
       // Live Classroom - Available to Academic Staff and Students
-      { path: '/dashboard/student/live-classroom', icon: GraduationCap, label: 'Live Classroom', allowedRoles: ['academic_staff', 'student', 'system_admin'] }
+      { 
+        path: role === 'student' ? '/dashboard/student/live-classroom' : '/academic/live-classroom', 
+        icon: GraduationCap, 
+        label: 'Live Classroom', 
+        allowedRoles: ['academic_staff', 'student', 'system_admin'] 
+      }
     ];
 
     return [...baseItems, ...roleBasedItems].filter(item => 
@@ -67,7 +84,7 @@ export function Layout({ children }) {
   const getUserRoleDisplay = () => {
     const roleLabels = {
       'system_admin': 'System Administrator',
-      'academic_staff': 'Academic Staff',
+      'academic_staff': 'Lecturer',
       'student': 'Student',
       'hr_personnel': 'HR Personnel',
       'finance_staff': 'Finance Staff',
@@ -93,6 +110,22 @@ export function Layout({ children }) {
   const handleLogout = () => {
     logout();
     navigate('/login');
+  };
+
+  const handleOpenDelegate = () => {
+    setDelegatePassword('');
+    setDelegateError('');
+    setDelegateDialogOpen(true);
+  };
+
+  const handleDelegateSubmit = (e) => {
+    e?.preventDefault?.();
+    if (delegatePassword === '00000') {
+      setDelegateDialogOpen(false);
+      navigate('/delegate');
+    } else {
+      setDelegateError('Incorrect password');
+    }
   };
 
   return (
@@ -139,6 +172,37 @@ export function Layout({ children }) {
 
             {/* User Menu */}
             <div className="flex items-center gap-2">
+              {/* Kebab Menu - persistent top-right */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20">
+                    <MoreVertical className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  {/* Common quick links similar to dashboard structure, role-aware */}
+                  {user?.role === 'student' && (
+                    <DropdownMenuItem className="cursor-pointer" onClick={handleOpenDelegate}>
+                      Delegate Access
+                    </DropdownMenuItem>
+                  )}
+                  {user?.role === 'academic_staff' && (
+                    <DropdownMenuItem className="cursor-pointer" onClick={() => navigate('/academic/live-classroom')}>
+                      Live Classroom
+                    </DropdownMenuItem>
+                  )}
+                  {user?.role === 'hr_personnel' && (
+                    <DropdownMenuItem className="cursor-pointer" onClick={() => navigate('/admin-hr')}>
+                      Admin & HR
+                    </DropdownMenuItem>
+                  )}
+                  {user?.role === 'system_admin' && (
+                    <DropdownMenuItem className="cursor-pointer" onClick={() => navigate('/dashboard')}>
+                      Main Dashboard
+                    </DropdownMenuItem>
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
               {/* Notifications */}
               <Button variant="ghost" size="icon" className="text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20">
                 <Bell className="h-4 w-4" />
@@ -248,6 +312,34 @@ export function Layout({ children }) {
           <p>&copy; 2025 EduManage Pro. Comprehensive Educational ERP System.</p>
         </div>
       </footer>
+
+      {/* Delegate Password Modal */}
+      <Dialog open={delegateDialogOpen} onOpenChange={setDelegateDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delegate Access</DialogTitle>
+            <DialogDescription>Enter the delegate password to proceed.</DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleDelegateSubmit} className="space-y-4">
+            <div>
+              <Input
+                type="password"
+                placeholder="Enter password"
+                value={delegatePassword}
+                onChange={(e) => { setDelegatePassword(e.target.value); setDelegateError(''); }}
+                required
+              />
+              {delegateError && (
+                <p className="mt-1 text-sm text-red-600">{delegateError}</p>
+              )}
+            </div>
+            <DialogFooter>
+              <Button type="button" variant="ghost" onClick={() => setDelegateDialogOpen(false)}>Cancel</Button>
+              <Button type="submit">Continue</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
