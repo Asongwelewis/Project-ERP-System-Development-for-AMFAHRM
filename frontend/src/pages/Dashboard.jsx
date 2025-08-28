@@ -8,6 +8,7 @@ import { LiveClassroom } from './academics/LiveClassroom';
 import { Courses } from './academics/Courses';
 import Assignments from './academics/Assignments';
 import Timetable from './academics/Timetable';
+import Examinations from './academics/Examinations';
 import Grades from './academics/Grades';
 import StudentPerformance from './academics/StudentPerformance';
 import { Layout } from '../components/Layout';
@@ -18,7 +19,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 
 // Allowed student tabs (module scope)
-const ALLOWED_STUDENT_TABS = ['overview', 'live-classroom', 'courses', 'assignments', 'grades', 'timetable', 'performance'];
+const ALLOWED_STUDENT_TABS = ['overview', 'live-classroom', 'courses', 'assignments', 'grades', 'timetable', 'exams', 'performance'];
 
 export function Dashboard() {
   const { user } = useAuth();
@@ -145,6 +146,7 @@ export function Dashboard() {
             </CardHeader>
           </Card>
         </Link>
+        
       </div>
     </div>
   );
@@ -229,6 +231,28 @@ export function Dashboard() {
             </CardHeader>
           </Card>
         </Link>
+        <Link to="/academic/exam-scheduler">
+          <Card className="border-orange-200 dark:border-orange-800 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-orange-700 dark:text-orange-300">
+                <Calendar className="h-5 w-5" />
+                Exam Scheduler
+              </CardTitle>
+              <CardDescription>Create and manage your course exams</CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+        <Link to="/academic/examinations">
+          <Card className="border-blue-200 dark:border-blue-800 bg-white dark:bg-white hover:shadow-md transition-shadow cursor-pointer">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-blue-700 dark:text-blue-300">
+                <ClipboardList className="h-5 w-5" />
+                Examination Timetable
+              </CardTitle>
+              <CardDescription>View scheduled exams, invigilators and venues</CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
       </div>
     </div>
   );
@@ -259,7 +283,7 @@ export function Dashboard() {
           value={currentPath} 
           onValueChange={handleTabChange}
         >
-            <TabsList className="grid w-full grid-cols-7">
+            <TabsList className="grid w-full grid-cols-8">
               <TabsTrigger value="overview" className="flex items-center gap-2">
                 <Home className="h-4 w-4" />
                 Overview
@@ -283,6 +307,10 @@ export function Dashboard() {
               <TabsTrigger value="timetable" className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
                 Timetable
+              </TabsTrigger>
+              <TabsTrigger value="exams" className="flex items-center gap-2">
+                <ClipboardList className="h-4 w-4" />
+                Exams
               </TabsTrigger>
               <TabsTrigger value="performance" className="flex items-center gap-2">
                 <BarChart3 className="h-4 w-4" />
@@ -343,7 +371,7 @@ export function Dashboard() {
                     <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">2</div>
                     <p className="text-xs text-muted-foreground">Next 2 weeks</p>
                     <Button variant="link" size="sm" className="p-0 h-auto text-blue-600" asChild>
-                      <Link to="/dashboard/student/examinations">View schedule</Link>
+                      <Link to="/academic/examinations">View schedule</Link>
                     </Button>
                   </CardContent>
                 </Card>
@@ -381,6 +409,9 @@ export function Dashboard() {
             </TabsContent>
             <TabsContent value="timetable" className="mt-6">
               <Timetable embedded />
+            </TabsContent>
+            <TabsContent value="exams" className="mt-6">
+              <Examinations />
             </TabsContent>
             <TabsContent value="performance" className="mt-6">
               <StudentPerformance embedded />
@@ -467,6 +498,17 @@ export function Dashboard() {
                 Leave Management
               </CardTitle>
               <CardDescription>Track and approve leave requests</CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+        <Link to="/admin-hr/exams">
+          <Card className="border-gray-100 bg-white dark:bg-white hover: transition-shadow cursor-pointer ">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-blue-700">
+                <ClipboardList className="h-5 w-5" />
+                Exam Scheduling
+              </CardTitle>
+              <CardDescription>Set dates, times, venues and invigilators</CardDescription>
             </CardHeader>
           </Card>
         </Link>

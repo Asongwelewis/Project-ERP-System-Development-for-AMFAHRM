@@ -182,19 +182,40 @@ export function Layout({ children }) {
                 <DropdownMenuContent align="end" className="w-56">
                   {/* Common quick links similar to dashboard structure, role-aware */}
                   {user?.role === 'student' && (
-                    <DropdownMenuItem className="cursor-pointer" onClick={handleOpenDelegate}>
-                      Delegate Access
-                    </DropdownMenuItem>
+                    <>
+                      <DropdownMenuItem className="cursor-pointer" onClick={handleOpenDelegate}>
+                        Delegate Access
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="cursor-pointer" onClick={() => navigate('/dashboard/student/timetable')}>
+                        Class Timetable
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="cursor-pointer" onClick={() => navigate('/academic/examinations')}>
+                        Exams
+                      </DropdownMenuItem>
+                    </>
                   )}
                   {user?.role === 'academic_staff' && (
-                    <DropdownMenuItem className="cursor-pointer" onClick={() => navigate('/academic/live-classroom')}>
-                      Live Classroom
-                    </DropdownMenuItem>
+                    <>
+                      <DropdownMenuItem className="cursor-pointer" onClick={() => navigate('/academic/live-classroom')}>
+                        Live Classroom
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="cursor-pointer" onClick={() => navigate('/academic/exam-scheduler')}>
+                        Exam Scheduler
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="cursor-pointer" onClick={() => navigate('/academic/examinations')}>
+                        Examination Timetable
+                      </DropdownMenuItem>
+                    </>
                   )}
                   {user?.role === 'hr_personnel' && (
-                    <DropdownMenuItem className="cursor-pointer" onClick={() => navigate('/admin-hr')}>
-                      Admin & HR
-                    </DropdownMenuItem>
+                    <>
+                      <DropdownMenuItem className="cursor-pointer" onClick={() => navigate('/admin-hr')}>
+                        Admin & HR
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="cursor-pointer" onClick={() => navigate('/admin-hr/exams')}>
+                        Exam Scheduling
+                      </DropdownMenuItem>
+                    </>
                   )}
                   {user?.role === 'system_admin' && (
                     <DropdownMenuItem className="cursor-pointer" onClick={() => navigate('/dashboard')}>

@@ -11,10 +11,12 @@ import { CourseManagement } from '../pages/academics/CourseManagement';
 import { LiveClassroom } from '../pages/academics/LiveClassroom';
 import Assignments from '../pages/academics/Assignments';
 import Examinations from '../pages/academics/Examinations';
+import { ExamScheduler } from '../pages/academics/ExamScheduler';
 import { GradeManagement } from '../pages/academics/GradeManagement';
 import Schedule from '../pages/academics/Schedule';
 // Admin & HR Routes
 import { HRDashboard } from '../pages/admin/HRDashboard';
+import { ExamSchedulingHR } from '../pages/admin/ExamSchedulingHR';
 import { Employee } from '../pages/admin/Employee';
 import { Attendance } from '../pages/admin/Attendance';
 import { Leave } from '../pages/admin/Leave';
@@ -135,6 +137,19 @@ export function AppRouter() {
         />
 
         <Route
+          path="/academic/exam-scheduler"
+          element={
+            <ProtectedRoute>
+              {hasRole(['academic_staff', 'system_admin']) ? (
+                <ExamScheduler />
+              ) : (
+                <NotFound />
+              )}
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/academic/grades"
           element={
             <ProtectedRoute>
@@ -167,6 +182,19 @@ export function AppRouter() {
             <ProtectedRoute>
               {hasRole(['hr_personnel', 'system_admin']) ? (
                 <HRDashboard />
+              ) : (
+                <NotFound />
+              )}
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin-hr/exams"
+          element={
+            <ProtectedRoute>
+              {hasRole(['hr_personnel', 'system_admin']) ? (
+                <ExamSchedulingHR />
               ) : (
                 <NotFound />
               )}
