@@ -129,3 +129,159 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Utiliser le modèle User personnalisé
 AUTH_USER_MODEL = 'school.User'
+
+# Configuration de l'API REST
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
+# Configuration de la pagination
+PAGINATION_SETTINGS = {
+    'PAGE_SIZE': 10,
+    'MAX_PAGE_SIZE': 100,
+}
+
+# Configuration des filtres
+FILTER_BACKENDS = [
+    'django_filters.rest_framework.DjangoFilterBackend',
+]
+
+# Configuration des recherches
+SEARCH_BACKENDS = [
+    'django_filters.rest_framework.DjangoFilterBackend',
+]
+
+# Configuration des tri
+SORT_BACKENDS = [
+    'django_filters.rest_framework.DjangoFilterBackend',
+]
+
+# Configuration de l'email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.example.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'your_email@example.com'
+EMAIL_HOST_PASSWORD = 'your_email_password'
+
+# Configuration de la connexion à la base de données PostgreSQL
+DATABASES['default'] = {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'schoolmanagementsystem',
+    'USER': 'postgres',
+    'PASSWORD': '07k07a20m06ga',
+    'HOST': 'localhost',
+    'PORT': '5432',
+}
+
+# Configuration de la journalisation
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}
+
+# Configuration de l'API REST pour la documentation
+REST_FRAMEWORK['DEFAULT_SCHEMA_CLASS'] = 'rest_framework.schemas.coreapi.AutoSchema'
+
+# Configuration de la documentation de l'API avec drf-yasg
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,
+    'JSON_EDITOR': True,
+}
+
+# Configuration de CORS
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "https://your-production-domain.com",
+]
+
+# Configuration des en-têtes de sécurité
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_SSL_REDIRECT = False
+
+# Configuration de la langue et du fuseau horaire par défaut
+LANGUAGE_CODE = 'fr-fr'
+TIME_ZONE = 'Europe/Paris'
+
+# Configuration de la localisation des fichiers statiques et des fichiers médias
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+MEDIA_ROOT = BASE_DIR / "media"
+
+# Configuration de la clé secrète pour la production
+import os
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', SECRET_KEY)
+
+# Configuration du débogage pour la production
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+
+# Configuration des hôtes autorisés pour la production
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',')
+
+# Configuration de la base de données pour la production
+DATABASES['default'] = {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': os.environ.get('DB_NAME', 'schoolmanagementsystem'),
+    'USER': os.environ.get('DB_USER', 'postgres'),
+    'PASSWORD': os.environ.get('DB_PASSWORD', '07k07a20m06ga'),
+    'HOST': os.environ.get('DB_HOST', 'localhost'),
+    'PORT': os.environ.get('DB_PORT', '5432'),
+}
+
+# Configuration de l'email pour la production
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.example.com')
+EMAIL_PORT = os.environ.get('EMAIL_PORT', 587)
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'true') == 'true'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'your_email@example.com')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'your_email_password')
+
+# Configuration de la journalisation pour la production
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'debug.log'),
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+# Configuration de la sécurité des sessions
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+# Configuration de la durée de vie des sessions
+SESSION_COOKIE_AGE = 1209600  # 2 semaines en secondes
