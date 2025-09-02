@@ -5,13 +5,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../co
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
-import { GraduationCap, DollarSign, Users, Target, Loader2, AlertCircle } from 'lucide-react';
+import { useToast } from '../components/ui/use-toast';
+import { ArrowRight, GraduationCap, DollarSign, Users, Target, Loader2, AlertCircle } from 'lucide-react';
 import { useJwtAuth } from '../context/JwtAuthContext';
-
-// Simple alert function to replace toast
-const showAlert = (message, type = 'info') => {
-  alert(`${type.toUpperCase()}: ${message}`);
-};
 
 // Animation variants for the cards
 const leftCardVariants = {
@@ -41,7 +37,7 @@ export function LoginPage() {
   const [formErrors, setFormErrors] = useState({});
   const { login, register, user, isLoading, error } = useJwtAuth();
   const navigate = useNavigate();
-  // Alert notifications
+  const { toast } = useToast();
 
   // Redirect if user is already logged in
   useEffect(() => {
@@ -55,6 +51,7 @@ export function LoginPage() {
     setEmail('');
     setPassword('');
     setUsername('');
+    setFormErrors({});
   };
 
   const handleDemoLogin = async (e) => {
@@ -63,7 +60,12 @@ export function LoginPage() {
       await login('demo@example.com', 'demo123');
       navigate('/dashboard');
     } catch (err) {
-      showAlert('Could not log in with demo account. Please try again.', 'error');
+      console.error('Demo login failed:', err);
+      toast({
+        title: 'Demo Login Failed',
+        description: 'Could not log in with demo account. Please try again.',
+        variant: 'destructive'
+      });
     }
   };
 
@@ -89,7 +91,6 @@ export function LoginPage() {
     if (!validateForm()) return;
     
     setIsSubmitting(true);
-    setFormErrors({});
     
     try {
       if (isSignup) {
@@ -101,15 +102,24 @@ export function LoginPage() {
           username: email.split('@')[0]
         });
         
-        showAlert('Account created successfully! Please log in.', 'success');
+        toast({
+          title: 'Success!',
+          description: 'Account created successfully! Please log in.',
+          variant: 'default'
+        });
+        
+        setIsSignup(false);
       } else {
         await login(email, password);
         navigate('/dashboard');
       }
     } catch (err) {
       console.error(isSignup ? 'Signup error:' : 'Login error:', err);
-      
-      showAlert(error || `${isSignup ? 'Signup' : 'Login'} failed. ${err.message || 'Please try again.'}`, 'error');
+      toast({
+        title: isSignup ? 'Signup Failed' : 'Login Failed',
+        description: error || 'An error occurred. Please try again.',
+        variant: 'destructive'
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -181,14 +191,18 @@ export function LoginPage() {
       >
         <Card className="w-full max-w-md shadow-xl border-orange-200 bg-white">
           <CardHeader className="text-center bg-white rounded-t-lg p-6">
-            <CardTitle className="text-orange-700">Welcome Back</CardTitle>
-            <CardDescription className="text-gray-600">Sign in to continue to your account</CardDescription>
+            <CardTitle className="text-orange-700">
+              {isSignup ? 'Create an Account' : 'Welcome Back'}
+            </CardTitle>
+            <CardDescription className="text-gray-600">
+              {isSignup ? 'Sign up to get started' : 'Sign in to continue to your account'}
+            </CardDescription>
           </CardHeader>
           <CardContent className="p-6 bg-white">
             <form onSubmit={handleSubmit} className="space-y-4">
               {isSignup && (
                 <div className="space-y-2">
-                  <Label htmlFor="username">Username</Label>
+                  <Label htmlFor="username">Full Name</Label>
                   <div className="relative">
                     <Input
                       id="username"
@@ -303,7 +317,7 @@ export function LoginPage() {
                   <Button 
                     onClick={handleDemoLogin} 
                     variant="outline" 
-                    className="w-full border-orange-600 text-orange-600 hover:bg-orange-50"
+                    className="w-full border-orange-600 text-orange-600 hover:bg-orange-50 mt-4"
                     disabled={isLoading || isSubmitting}
                   >
                     {isLoading ? (
